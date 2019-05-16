@@ -3,7 +3,8 @@
 const APIrequest = require('request');
 const http = require('http');
 
-const APIkey = "";  // ADD API KEY HERE
+require('dotenv').config(); // Load API key from environment variable
+const APIkey = process.env.API_KEY;  // ADD API KEY HERE
 const url = "https://translation.googleapis.com/language/translate/v2?key="+APIkey;
 
 const express = require('express')
