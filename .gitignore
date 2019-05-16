@@ -1,0 +1,5 @@
+/node_modules
+package-lock.json
+users.db
+FlashCards.db
+testAPI.js
