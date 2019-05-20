@@ -1,10 +1,10 @@
 {
   "name": "flashcards",
   "version": "1.0.0",
-  "description": "",
   "main": "createDB.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -17,9 +17,14 @@
   },
   "homepage": "https://github.com/jdongallo/lango#readme",
   "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-react-app": "^3.1.2",
     "dotenv": "^8.0.0",
     "express": "^4.16.4",
     "request": "^2.88.0",
     "sqlite3": "^4.0.8"
-  }
+  },
+  "devDependencies": {},
+  "keywords": [],
+  "description": ""
 }
