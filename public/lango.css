@@ -2,6 +2,12 @@ body {
     font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
 }
 
+main {
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+}
+
 div.textCard {
     background-color: #ffffff;
     border-style: solid;
