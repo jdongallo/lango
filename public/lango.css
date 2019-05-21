@@ -1,5 +1,30 @@
+div.root{
+    max-width: 100vw;
+    margin-left: 30px;
+} 
+
 body {
+    max-width: 100vw;
     font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+}
+
+.headings{
+    margin-top: 20px;
+    background-color: #eeeeee;
+}
+
+span {
+    font-family: 'Raleway', sans-serif;
+    font-size: 40px;
+    color: #606B9B;
+    margin-left: 33vw;
+    text-align: center;
+}
+
+.cardButton{
+    background-color: #606B9B
+    margin-left: 50px;
+    border-radius: 8px;
 }
 
 main {

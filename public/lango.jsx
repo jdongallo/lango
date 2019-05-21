@@ -14,6 +14,15 @@ function Txt(props) {
    else return <p>{props.phrase}</p>;
    }
 
+function MakeHeader(){
+  return(
+      <div className="headings">
+        <button className="cardButton"> Start Review </button>
+        <span className="LangoTitle"> Lango! </span> 
+      </div>
+      );
+}
+
 
 class CreateCardMain extends React.Component {
 
@@ -25,6 +34,8 @@ class CreateCardMain extends React.Component {
       }
 
   render() {return (
+      <div>
+      <MakeHeader />
       <main>
       <Card>
          <textarea id="inputEng" onKeyPress={this.checkReturn} />
@@ -33,6 +44,7 @@ class CreateCardMain extends React.Component {
           <Txt phrase={this.state.opinion} /> 
       </Card>
       </main>
+      </div>
       );
     } // end of render function   
 

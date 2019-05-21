@@ -9,74 +9,96 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 function Card(props) {
-   return React.createElement(
-      "div",
-      { className: "textCard" },
-      props.children
-   );
+    return React.createElement(
+        "div",
+        { className: "textCard" },
+        props.children
+    );
 }
 
 function Txt(props) {
-   if (props.phrase == undefined) {
-      return React.createElement(
-         "p",
-         null,
-         "Text missing"
-      );
-   } else return React.createElement(
-      "p",
-      null,
-      props.phrase
-   );
+    if (props.phrase == undefined) {
+        return React.createElement(
+            "p",
+            null,
+            "Text missing"
+        );
+    } else return React.createElement(
+        "p",
+        null,
+        props.phrase
+    );
+}
+
+function MakeHeader() {
+    return React.createElement(
+        "div",
+        { className: "headings" },
+        React.createElement(
+            "button",
+            { className: "cardButton" },
+            " Start Review "
+        ),
+        React.createElement(
+            "span",
+            { className: "LangoTitle" },
+            " Lango! "
+        )
+    );
 }
 
 var CreateCardMain = function (_React$Component) {
-   _inherits(CreateCardMain, _React$Component);
+    _inherits(CreateCardMain, _React$Component);
 
-   function CreateCardMain(props) {
-      _classCallCheck(this, CreateCardMain);
+    function CreateCardMain(props) {
+        _classCallCheck(this, CreateCardMain);
 
-      var _this = _possibleConstructorReturn(this, (CreateCardMain.__proto__ || Object.getPrototypeOf(CreateCardMain)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (CreateCardMain.__proto__ || Object.getPrototypeOf(CreateCardMain)).call(this, props));
 
-      _this.state = { opinion: "Life is a bowl of cherries" };
+        _this.state = { opinion: "Life is a bowl of cherries" };
 
-      _this.checkReturn = _this.checkReturn.bind(_this);
-      return _this;
-   }
+        _this.checkReturn = _this.checkReturn.bind(_this);
+        return _this;
+    }
 
-   _createClass(CreateCardMain, [{
-      key: "render",
-      value: function render() {
-         return React.createElement(
-            "main",
-            null,
-            React.createElement(
-               Card,
-               null,
-               React.createElement("textarea", { id: "inputEng", onKeyPress: this.checkReturn })
-            ),
-            React.createElement(
-               Card,
-               null,
-               React.createElement(Txt, { phrase: this.state.opinion })
-            )
-         );
-      } // end of render function   
+    _createClass(CreateCardMain, [{
+        key: "render",
+        value: function render() {
+            return React.createElement(
+                "div",
+                null,
+                React.createElement(MakeHeader, null),
+                React.createElement(
+                    "main",
+                    null,
+                    React.createElement(
+                        Card,
+                        null,
+                        React.createElement("textarea", { id: "inputEng", onKeyPress: this.checkReturn })
+                    ),
+                    React.createElement(
+                        Card,
+                        null,
+                        React.createElement(Txt, { phrase: this.state.opinion })
+                    )
+                )
+            );
+        } // end of render function   
 
-      // onKeyPress function for the textarea element
-      // When the charCode is 13, the user has hit the return key
+        // onKeyPress function for the textarea element
+        // When the charCode is 13, the user has hit the return key
 
-   }, {
-      key: "checkReturn",
-      value: function checkReturn(event) {
-         if (event.charCode == 13) {
-            var newPhrase = document.getElementById("inputEng").value;
-            this.setState({ opinion: newPhrase });
-         }
-      }
-   }]);
+    }, {
+        key: "checkReturn",
+        value: function checkReturn(event) {
+            if (event.charCode == 13) {
+                var newPhrase = document.getElementById("inputEng").value;
+                this.setState({ opinion: newPhrase });
+            }
+        }
+    }]);
 
-   return CreateCardMain;
+    return CreateCardMain;
 }(React.Component); // end of class
 
 
