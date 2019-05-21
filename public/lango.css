@@ -3,9 +3,9 @@ body {
 }
 
 main {
-    text-align: center;
     display: flex;
     flex-direction: row;
+    justify-content: center;
 }
 
 div.textCard {
@@ -19,6 +19,7 @@ div.textCard {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0.5vw;
 }
 
 /* don't get weird blue border when I type */
