@@ -43,6 +43,21 @@ function MakeFooter(props) {
 }
 
 
+class SaveBtn extends React.Component{
+  constructor(props) {
+      super(props);
+      // this.state ;
+      // this.getTranslation = this.getTranslation.bind(this);
+      }
+
+    render(){ return (
+      <div className="SaveBtn">
+       <button className="Save"> Save </button>
+      </div>
+      );
+    }
+}
+
 class CreateCardMain extends React.Component {
 
   constructor(props) {
@@ -63,6 +78,7 @@ class CreateCardMain extends React.Component {
           <Txt phrase={this.state.translation} /> 
       </Card>
       </main>
+      <SaveBtn />
       <MakeFooter />
       </React.Fragment>
       );

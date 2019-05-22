@@ -70,18 +70,47 @@ function MakeFooter(props) {
     );
 }
 
-var CreateCardMain = function (_React$Component) {
-    _inherits(CreateCardMain, _React$Component);
+var SaveBtn = function (_React$Component) {
+    _inherits(SaveBtn, _React$Component);
+
+    function SaveBtn(props) {
+        _classCallCheck(this, SaveBtn);
+
+        return _possibleConstructorReturn(this, (SaveBtn.__proto__ || Object.getPrototypeOf(SaveBtn)).call(this, props));
+        // this.state ;
+        // this.getTranslation = this.getTranslation.bind(this);
+    }
+
+    _createClass(SaveBtn, [{
+        key: "render",
+        value: function render() {
+            return React.createElement(
+                "div",
+                { className: "SaveBtn" },
+                React.createElement(
+                    "button",
+                    { className: "Save" },
+                    " Save "
+                )
+            );
+        }
+    }]);
+
+    return SaveBtn;
+}(React.Component);
+
+var CreateCardMain = function (_React$Component2) {
+    _inherits(CreateCardMain, _React$Component2);
 
     function CreateCardMain(props) {
         _classCallCheck(this, CreateCardMain);
 
-        var _this = _possibleConstructorReturn(this, (CreateCardMain.__proto__ || Object.getPrototypeOf(CreateCardMain)).call(this, props));
+        var _this2 = _possibleConstructorReturn(this, (CreateCardMain.__proto__ || Object.getPrototypeOf(CreateCardMain)).call(this, props));
 
-        _this.state = { translation: "Life is a bowl of cherries" };
+        _this2.state = { translation: "Life is a bowl of cherries" };
 
-        _this.getTranslation = _this.getTranslation.bind(_this);
-        return _this;
+        _this2.getTranslation = _this2.getTranslation.bind(_this2);
+        return _this2;
     }
 
     _createClass(CreateCardMain, [{
@@ -105,6 +134,7 @@ var CreateCardMain = function (_React$Component) {
                         React.createElement(Txt, { phrase: this.state.translation })
                     )
                 ),
+                React.createElement(SaveBtn, null),
                 React.createElement(MakeFooter, null)
             );
         } // end of render function   

@@ -89,6 +89,20 @@ div.textCard {
     font-size: 25px;
 }
 
+
+.SaveBtn{
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 20vw;
+    padding-top: 20px;
+}
+
+.Save{
+    background-color:  #70C7A9;
+    color: #eeeeee ;
+    font-size: 1.3em;
+}
+
 /* don't get weird blue border when I type */
 textarea:focus {
     outline: none;
