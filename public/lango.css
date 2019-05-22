@@ -1,7 +1,6 @@
 div.root{
     max-width: 100vw;
     margin-left: 30px;
-    max-width: 100vw;
     min-height: 100vh;
     flex-grow: 1; 
     flex-shrink: 0;
@@ -9,32 +8,31 @@ div.root{
     display: flex;
 } 
 
-.insideBody{
+/* .insideBody{
     display: flex;
     flex-direction: column;
     flex-grow: 1; 
     flex-shrink: 0;
     flex-basis: auto;
-}
+} */
 
 header{
     display: flex;
     justify-content: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 1rem;
+    margin-bottom: 3rem;
     background-color: #ffffff;
 }
 
 footer{
-    justify-content: center;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
     background-color: #606B9B;
-
-}
-
-footer{
-    justify-content: center;
-    background-color: #606B9B;
+    color: white;
     text-align: center;
+    padding: 0.5rem;
 }
 
 footer > span{
@@ -46,6 +44,7 @@ footer > span{
 body {
     max-width: 100vw;
     min-height: 100vh;
+    overflow: hidden;
     font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
 }
 
