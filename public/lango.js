@@ -33,7 +33,7 @@ function Txt(props) {
 function MakeHeader() {
     return React.createElement(
         "header",
-        { className: "headings" },
+        null,
         React.createElement(
             "button",
             { className: "cardButton" },

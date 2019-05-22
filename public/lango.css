@@ -20,6 +20,9 @@ div.root{
 header{
     display: flex;
     justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #ffffff;
 }
 
 footer{
@@ -44,12 +47,6 @@ body {
     max-width: 100vw;
     min-height: 100vh;
     font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-}
-
-.headings{
-    margin-top: 20px;
-    background-color: #eeeeee;
-    justify-content: center;
 }
 
 .LangoTitle{
@@ -91,7 +88,6 @@ div.textCard {
     margin: 0.5vw;
 
     font-size: 25px;
-    font-family: 
 }
 
 /* don't get weird blue border when I type */

@@ -16,7 +16,7 @@ function Txt(props) {
 
 function MakeHeader(){
   return(
-      <header className="headings">
+      <header>
         <button className="cardButton"> Start Review </button>
         <span className="LangoTitle"> Lango! </span> 
       </header>
