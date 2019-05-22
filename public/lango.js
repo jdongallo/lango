@@ -32,7 +32,7 @@ function Txt(props) {
 
 function MakeHeader() {
     return React.createElement(
-        "div",
+        "header",
         { className: "headings" },
         React.createElement(
             "button",
@@ -43,6 +43,18 @@ function MakeHeader() {
             "span",
             { className: "LangoTitle" },
             " Lango! "
+        )
+    );
+}
+
+function MakeFooter(props) {
+    return React.createElement(
+        "footer",
+        { className: "footy" },
+        React.createElement(
+            "span",
+            null,
+            " username "
         )
     );
 }
@@ -66,7 +78,7 @@ var CreateCardMain = function (_React$Component) {
         value: function render() {
             return React.createElement(
                 "div",
-                null,
+                { className: "insideBody" },
                 React.createElement(MakeHeader, null),
                 React.createElement(
                     "main",
@@ -81,7 +93,8 @@ var CreateCardMain = function (_React$Component) {
                         null,
                         React.createElement(Txt, { phrase: this.state.opinion })
                     )
-                )
+                ),
+                React.createElement(MakeFooter, null)
             );
         } // end of render function   
 

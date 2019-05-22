@@ -16,11 +16,19 @@ function Txt(props) {
 
 function MakeHeader(){
   return(
-      <div className="headings">
+      <header className="headings">
         <button className="cardButton"> Start Review </button>
         <span className="LangoTitle"> Lango! </span> 
-      </div>
+      </header>
       );
+}
+
+function MakeFooter(props) {
+  return(
+    <footer className="footy">
+      <span> username </span> 
+     </footer> 
+    );
 }
 
 
@@ -34,7 +42,7 @@ class CreateCardMain extends React.Component {
       }
 
   render() {return (
-      <div>
+      <div className="insideBody">
       <MakeHeader />
       <main>
       <Card>
@@ -44,6 +52,7 @@ class CreateCardMain extends React.Component {
           <Txt phrase={this.state.opinion} /> 
       </Card>
       </main>
+      <MakeFooter />
       </div>
       );
     } // end of render function   
