@@ -10,7 +10,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var object = undefined;
 var input = document.getElementById("word");
-var engText = ""; // Passed to saveInput function 
+var engText = ""; // Used in saveInput function 
 var transText = ""; // to store in database
 
 function createCORSRequest(method, url) {
@@ -76,9 +76,10 @@ var SaveBtn = function (_React$Component) {
     function SaveBtn(props) {
         _classCallCheck(this, SaveBtn);
 
-        return _possibleConstructorReturn(this, (SaveBtn.__proto__ || Object.getPrototypeOf(SaveBtn)).call(this, props));
-        // this.state ;
-        // this.getTranslation = this.getTranslation.bind(this);
+        var _this = _possibleConstructorReturn(this, (SaveBtn.__proto__ || Object.getPrototypeOf(SaveBtn)).call(this, props));
+
+        _this.saveInput = _this.saveInput.bind(_this);
+        return _this;
     }
 
     _createClass(SaveBtn, [{
@@ -89,10 +90,32 @@ var SaveBtn = function (_React$Component) {
                 { className: "SaveBtn" },
                 React.createElement(
                     "button",
-                    { className: "Save" },
+                    { className: "Save", onClick: this.saveInput },
                     " Save "
                 )
             );
+        }
+    }, {
+        key: "saveInput",
+        value: function saveInput() {
+            var url = "/store?english=" + engText + "&spanish=" + transText;
+            var xhr = createCORSRequest('GET', url);
+
+            if (!xhr) {
+                alert('CORS not supported');
+                return;
+            }
+
+            xhr.onload = function () {
+                var responseStr = xhr.responseText;
+                console.log(responseStr);
+            }.bind(this);
+
+            xhr.onerror = function () {
+                alert('There was an error in making the request');
+            }.bind(this);
+
+            xhr.send();
         }
     }]);
 
@@ -173,7 +196,7 @@ var CreateCardMain = function (_React$Component2) {
 
                 xhr.onerror = function () {
                     alert('There was an error in making the request');
-                };
+                }.bind(this);
 
                 xhr.send();
             }
@@ -185,4 +208,3 @@ var CreateCardMain = function (_React$Component2) {
 
 
 ReactDOM.render(React.createElement(CreateCardMain, null), document.getElementById('root'));
-
