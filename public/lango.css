@@ -53,6 +53,7 @@ body {
     font-size: 70px;
     color: #606B9B;
     justify-content: center;
+    font-weight: bold;
 }
 
 .cardButton{
@@ -77,14 +78,17 @@ div.textCard {
     background-color: #ffffff;
     border-style: solid;
     border-width: 4px;
+    border-color: #bbbbbb;
 
-    width: 450px;
-    height: 300px;
+    color: #bbbbbb;
+
+    width: 33vw;
+    height: 50vh;
 
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0.5vw;
+    margin: 1vw;
 
     font-size: 25px;
 }
@@ -93,15 +97,22 @@ div.textCard {
 .SaveBtn{
     display: flex;
     justify-content: flex-end;
-    padding-right: 20vw;
+    padding-right: 15.5vw;
     padding-top: 20px;
+
 }
 
 .Save{
-    background-color:  #70C7A9;
+    background-color:  #70c7A9;
     color: #eeeeee ;
     font-size: 1.3em;
+    border-radius: 8px;
+    font-family: 'Open Sans', sans-serif;
+    padding: 5px;
+    padding-left: 25px;
+    padding-right: 25px;    
 }
+
 
 /* don't get weird blue border when I type */
 textarea:focus {
@@ -112,4 +123,137 @@ textarea {
     border: none;
     font-size: 25px;
     font-family: 'Helvetica', sans-serif;
+}
+
+
+@media only screen and (max-width: 800px) {
+  .Save{
+    background-color:  #70c7A9;
+    color: #eeeeee ;
+    font-size: 1.3em;
+    border-radius: 8px;
+    font-family: 'Open Sans', sans-serif;
+    padding: 5px;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.SaveBtn{
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 4vw;
+    padding-top: 20px;
+}
+
+div.textCard {
+    background-color: #ffffff;
+    border-style: solid;
+    border-width: 4px;
+    border-color: #bbbbbb;    
+
+    width: 45vw;
+    height: 43vw;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.5vw;
+
+    font-size: 25px;
+
+}
+
+
+header{
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    margin-bottom: 5rem;
+    background-color: #ffffff;
+}
+
+
+
+}
+/*end tablet*/
+
+
+@media only screen and (max-width: 550px) {
+
+    header{
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+    background-color: #ffffff;
+}
+
+.LangoTitle{
+    font-family: 'Raleway', sans-serif;
+    font-size: 3.5em;
+    color: #606B9B;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.cardButton{
+    
+    border-radius: 8px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.2em;
+    position: absolute;
+    left: 3vw;
+    top: 4.3vh;
+    background-color: #606B9B;
+    color: #eeeeee;
+}
+
+
+div.textCard {
+    background-color: #ffffff;
+    border-style: solid;
+    border-width: 4px;
+    border-color: #bbbbbb;
+
+
+
+    width: 80vw;
+    height: 40vw;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1.5vh;
+
+    font-size: 25px;
+
+    margin-left: 10vw;
+    margin-right: 10vw;
+}
+
+.Save{
+    background-color:  #70c7A9;
+    color: #eeeeee ;
+    font-size: 1.3em;
+    border-radius: 8px;
+    font-family: 'Open Sans', sans-serif;
+    padding: 5px;
+    padding-left: 25px;
+    padding-right: 25px;    
+}
+
+.SaveBtn{
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 7vw;
+}
+
+main{
+    display: flex;
+    flex-flow: column;
+    flex-direction: column;
+}
+
+
+
 }
