@@ -126,7 +126,7 @@ textarea {
 }
 
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 900px) {
   .Save{
     background-color:  #70c7A9;
     color: #eeeeee ;
