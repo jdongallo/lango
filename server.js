@@ -89,14 +89,6 @@ function storeFlashcard(req, res, next) {
         console.log("Error inserting data", err);
       } else {
         console.log("Data inserted");
-        // const select_query = `SELECT * FROM flashcards`;
-        // db.run(select_query, (err, data) => {
-        //   if(err) {
-        //       console.log(err);
-        //   } else {
-        //       console.log(data);
-        //   }
-        //     })
         }
       })
     res.send('Flashcard saved');

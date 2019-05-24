@@ -82,7 +82,7 @@ class CreateCardMain extends React.Component {
 
   constructor(props) {
       super(props);
-      this.state = { translation: "Life is a bowl of cherries" }
+      this.state = { translation: "" }
 
       this.getTranslation = this.getTranslation.bind(this);
       }
@@ -127,8 +127,6 @@ class CreateCardMain extends React.Component {
             let responseStr = xhr.responseText;
             object = JSON.parse(responseStr);
             console.log(object);
-            // let output = document.getElementById("outputDiv");
-            // output.textContent = object.Spanish;
             this.setState({translation: object.Spanish});
             engText = object.English;
             transText = object.Spanish;

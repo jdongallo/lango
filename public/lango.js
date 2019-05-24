@@ -130,7 +130,7 @@ var CreateCardMain = function (_React$Component2) {
 
         var _this2 = _possibleConstructorReturn(this, (CreateCardMain.__proto__ || Object.getPrototypeOf(CreateCardMain)).call(this, props));
 
-        _this2.state = { translation: "Life is a bowl of cherries" };
+        _this2.state = { translation: "" };
 
         _this2.getTranslation = _this2.getTranslation.bind(_this2);
         return _this2;
@@ -187,8 +187,6 @@ var CreateCardMain = function (_React$Component2) {
                     var responseStr = xhr.responseText;
                     object = JSON.parse(responseStr);
                     console.log(object);
-                    // let output = document.getElementById("outputDiv");
-                    // output.textContent = object.Spanish;
                     this.setState({ translation: object.Spanish });
                     engText = object.English;
                     transText = object.Spanish;
@@ -208,3 +206,4 @@ var CreateCardMain = function (_React$Component2) {
 
 
 ReactDOM.render(React.createElement(CreateCardMain, null), document.getElementById('root'));
+
