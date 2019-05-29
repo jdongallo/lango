@@ -11,7 +11,9 @@ function createCORSRequest(method, url) {
     return xhr;
 }
 
-input.addEventListener("keyup", function(event) {
+input.addEventListener("keyup", getTranslation)
+
+function getTranslation(event) {
     if (event.keyCode == 13) {
         let url = "/translate?english=" + document.getElementById("word").value;
         let xhr = createCORSRequest('GET', url);
@@ -36,7 +38,7 @@ input.addEventListener("keyup", function(event) {
     
         xhr.send();
     }
-})
+}
 
 function saveInput() {
     let url = "/store?english=" + engText + "&spanish=" + transText;
@@ -59,3 +61,7 @@ function saveInput() {
 
     xhr.send();
 }
+
+export {
+    object, input, engText, transText, createCORSRequest, getTranslation, saveInput
+};

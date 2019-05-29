@@ -4,3 +4,6 @@ users.db
 FlashCards.db
 testAPI.js
 .env
+/public/translate.html
+/public/translate.js
+/.vscode
