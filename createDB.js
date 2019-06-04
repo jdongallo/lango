@@ -14,7 +14,14 @@ let cmdStr = `CREATE TABLE flashcards (
 	engText TEXT,
 	transText TEXT,
 	numShown INTEGER,
-	numCorrect INTEGER
+	numCorrect INTEGER,
+	userID TEXT
+	)`;
+db.run(cmdStr,tableCreationCallback);
+cmdStr = `CREATE TABLE users (
+	firstName TEXT,
+	lastName TEXT,
+	googleID TEXT
 	)`;
 db.run(cmdStr,tableCreationCallback);
 
@@ -22,27 +29,9 @@ db.run(cmdStr,tableCreationCallback);
 // error messages you get.
 function tableCreationCallback(err) {
     if (err) {
-	console.log("Table creation error",err);
+		console.log("Table creation error",err);
     } else {
-	console.log("Database created");
-	db.close();
+		console.log("Database created");
+		db.close();
     }
-    // const name="Bob";
-    // const age="27";
-    // const insert_query = `INSERT INTO flashcards (idNum) VALUES(1)`;
-    // db.run(insert_query, (err) => {
-    // 	if(err) {
-	//     console.log("Error inserting data", err);
-	// } else {
-	//     console.log("Data inserted");
-	//     const select_query = `SELECT * FROM flashcards`;
-	//     db.run(select_query, (err, data) => {
-	// 	if(err) {
-	// 	    console.log(err);
-	// 	} else {
-	// 	    console.log(data);
-	// 	}
-	//     })
-	// }
-    // })
 }
