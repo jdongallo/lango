@@ -13,7 +13,7 @@ const cookieSession = require('cookie-session');
 const GoogleStrategy = require('passport-google-oauth20');
 const sqlite3 = require('sqlite3');
 const db = new sqlite3.Database('./FlashCards.db');
-var id = 0;
+var id = '';
 
 // Google login credentials, used when the user contacts
 // Google, to tell them where he is trying to login to, and show
@@ -118,8 +118,9 @@ app.get('/user/*',
        ); 
 
 // next, all queries (like translate or store or get...
-app.get('/translate', queryHandler );
+app.get('/translate', getTranslation );
 app.get('/store', storeFlashcard);
+app.get('/name', getName);
 
 // finally, not found...applies to everything
 app.use( fileNotFound );
@@ -180,7 +181,7 @@ function translate(str, res) {
   
   }
   
-  function queryHandler(req, res, next) {
+  function getTranslation(req, res, next) {
       let url = req.url;
       let qObj = req.query;
       console.log(qObj);
@@ -193,7 +194,7 @@ function translate(str, res) {
   }
   
   // TO DO: add userID field for insertion
-  function storeFlashcard(req, res, next) {
+function storeFlashcard(req, res, next) {
     let url = req.url;
     let qObj = req.query;
     console.log(qObj);
@@ -201,8 +202,7 @@ function translate(str, res) {
       const insert_query = `INSERT INTO flashcards 
         (engText, transText, numShown, numCorrect, userID) 
         VALUES(@0, @1, 0, 0, @2)`;
-      db.run(insert_query, qObj.english, qObj.spanish, req.user.userData, (err) => {
-          console.log(req.user);
+      db.run(insert_query, qObj.english, qObj.spanish, req.user.googleID, (err) => {
           if(err) {
               console.log("Error inserting data", err);
           } else {
@@ -215,6 +215,10 @@ function translate(str, res) {
       next();
     }
   }
+
+function getName(req, res, next) {
+    res.send(req.user.firstName);
+}
 
 // print the url of incoming HTTP request
 function printURL (req, res, next) {
@@ -297,7 +301,19 @@ passport.deserializeUser((dbRowID, done) => {
     console.log("deserializeUser. Input is:", dbRowID);
     // here is a good place to look up user data in database using
     // dbRowID. Put whatever you want into an object. It ends up
-    // as the property "user" of the "req" object. 
-    let userData = {userData: dbRowID};
-    done(null, userData);
+    // as the property "user" of the "req" object.
+    const search_query = `SELECT * FROM users WHERE googleID = @0`;
+    db.get(search_query, dbRowID, (err, row) => {
+        if (err) {
+            console.log('Error:',err);
+        }
+        else {
+            let userData = {
+                firstName: row.firstName,
+                lastName: row.lastName,
+                googleID: dbRowID
+            };
+            done(null, userData);
+        }
+    })
 });
