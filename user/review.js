@@ -27,6 +27,14 @@ function Card(props) {
     );
 }
 
+function SmallCard(props) {
+    return React.createElement(
+        "div",
+        { className: "SmallCard" },
+        props.children
+    );
+}
+
 function Txt(props) {
     if (props.phrase == undefined) {
         return React.createElement(
@@ -48,7 +56,7 @@ function MakeHeader() {
         React.createElement(
             "button",
             { className: "cardButton" },
-            " Start Review "
+            " Add "
         ),
         React.createElement(
             "span",
@@ -58,28 +66,43 @@ function MakeHeader() {
     );
 }
 
-function MakeFooter(props) {
-    return React.createElement(
-        "footer",
-        null,
-        React.createElement(
-            "span",
-            null,
-            " username "
-        )
-    );
-}
+var MakeFooter = function (_React$Component) {
+    _inherits(MakeFooter, _React$Component);
 
-var SaveBtn = function (_React$Component) {
-    _inherits(SaveBtn, _React$Component);
+    function MakeFooter(props) {
+        _classCallCheck(this, MakeFooter);
+
+        return _possibleConstructorReturn(this, (MakeFooter.__proto__ || Object.getPrototypeOf(MakeFooter)).call(this, props));
+    }
+
+    _createClass(MakeFooter, [{
+        key: "render",
+        value: function render() {
+            return React.createElement(
+                "footer",
+                null,
+                React.createElement(
+                    "span",
+                    null,
+                    " username "
+                )
+            );
+        }
+    }]);
+
+    return MakeFooter;
+}(React.Component);
+
+var SaveBtn = function (_React$Component2) {
+    _inherits(SaveBtn, _React$Component2);
 
     function SaveBtn(props) {
         _classCallCheck(this, SaveBtn);
 
-        var _this = _possibleConstructorReturn(this, (SaveBtn.__proto__ || Object.getPrototypeOf(SaveBtn)).call(this, props));
+        var _this2 = _possibleConstructorReturn(this, (SaveBtn.__proto__ || Object.getPrototypeOf(SaveBtn)).call(this, props));
 
-        _this.saveInput = _this.saveInput.bind(_this);
-        return _this;
+        _this2.saveInput = _this2.saveInput.bind(_this2);
+        return _this2;
     }
 
     _createClass(SaveBtn, [{
@@ -91,7 +114,7 @@ var SaveBtn = function (_React$Component) {
                 React.createElement(
                     "button",
                     { className: "Save", onClick: this.saveInput },
-                    " Save "
+                    " Next "
                 )
             );
         }
@@ -122,18 +145,20 @@ var SaveBtn = function (_React$Component) {
     return SaveBtn;
 }(React.Component);
 
-var CreateCardMain = function (_React$Component2) {
-    _inherits(CreateCardMain, _React$Component2);
+// class 
+
+var CreateCardMain = function (_React$Component3) {
+    _inherits(CreateCardMain, _React$Component3);
 
     function CreateCardMain(props) {
         _classCallCheck(this, CreateCardMain);
 
-        var _this2 = _possibleConstructorReturn(this, (CreateCardMain.__proto__ || Object.getPrototypeOf(CreateCardMain)).call(this, props));
+        var _this3 = _possibleConstructorReturn(this, (CreateCardMain.__proto__ || Object.getPrototypeOf(CreateCardMain)).call(this, props));
 
-        _this2.state = { translation: "" };
+        _this3.state = { translation: "" };
 
-        _this2.getTranslation = _this2.getTranslation.bind(_this2);
-        return _this2;
+        _this3.getTranslation = _this3.getTranslation.bind(_this3);
+        return _this3;
     }
 
     _createClass(CreateCardMain, [{
@@ -149,10 +174,14 @@ var CreateCardMain = function (_React$Component2) {
                     React.createElement(
                         Card,
                         null,
-                        React.createElement("textarea", { id: "inputEng", onKeyPress: this.getTranslation })
+                        React.createElement(
+                            "div",
+                            null,
+                            React.createElement("img", { src: "../assets/noun_Refresh_2310283.svg" })
+                        )
                     ),
                     React.createElement(
-                        Card,
+                        SmallCard,
                         null,
                         React.createElement(Txt, { phrase: this.state.translation })
                     )
