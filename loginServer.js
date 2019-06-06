@@ -120,7 +120,11 @@ app.get('/user/*',
 // next, all queries (like translate or store or get...
 app.get('/translate', getTranslation );
 app.get('/store', storeFlashcard);
-app.get('/name', getName);
+app.get('/update', updateFlashcard);
+app.get('/flashcards', isAuthenticated, getFlashcards);
+app.get('/name', isAuthenticated, (req, res, next) => {
+    res.send(req.user.firstName);
+});
 
 // finally, not found...applies to everything
 app.use( fileNotFound );
@@ -182,7 +186,6 @@ function translate(str, res) {
   }
   
   function getTranslation(req, res, next) {
-      let url = req.url;
       let qObj = req.query;
       console.log(qObj);
       if (qObj.english != undefined) {
@@ -195,7 +198,6 @@ function translate(str, res) {
   
   // TO DO: add userID field for insertion
 function storeFlashcard(req, res, next) {
-    let url = req.url;
     let qObj = req.query;
     console.log(qObj);
     if (qObj.english != undefined && qObj.spanish != undefined) {
@@ -214,10 +216,53 @@ function storeFlashcard(req, res, next) {
     else {
       next();
     }
-  }
+}
 
-function getName(req, res, next) {
-    res.send(req.user.firstName);
+function updateFlashcard(req, res, next) {
+    let qObj = req.query;
+    console.log(qObj);
+    const update_query = `UPDATE flashcards
+        SET numShown = @0, numCorrect = @1
+        WHERE idNum = @2`;
+    if (qObj.isCorrect == 'true') {
+        db.run(update_query, qObj.shown+1, qObj.correct+1, qObj.id, (err) => {
+            if (err) {
+                console.log('Error updating data',err);
+            }
+            else {
+                console.log('Shown and correct columns incremented');
+            }
+        })
+    }
+    else if (qObj.isCorrect == 'false') {
+        db.run(update_query, qObj.shown+1, qObj.correct, qObj.id, (err) => {
+            if (err) {
+                console.log('Error updating data',err);
+            }
+            else {
+                console.log('Shown column incremented');
+            }
+        })
+    }
+    else {
+        next();
+    }
+}
+
+function getFlashcards(req, res, next) {
+    const search_query = `SELECT * FROM flashcards WHERE userID = @0`;
+    db.all(search_query, req.user.googleID, (err, rows) => {
+        if (err) {
+            console.log('Error:',err);
+        }
+        // if db query returns an empty array, user doesn't have flashcards
+        else if (rows.length == 0) {
+            next();
+        }
+        else {
+            res.send(rows);
+        }
+    })
 }
 
 // print the url of incoming HTTP request
