@@ -1,3 +1,71 @@
+.card-side-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+}
+
+/*- Card container -*/
+.card-container {
+  position: relative;
+  z-index: 1;
+  margin: 32px auto;
+  width: 55vw;
+  height: 40vh;
+  -webkit-perspective: 1000px;
+          perspective: 1000px;
+}
+
+/*- Card body -*/
+.card-body {
+  width: 100%;
+  height: 100%;
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  transition: all .7s linear;
+}
+
+/*- Flipping the card -*/
+.card-container:hover .card-body {
+  -webkit-transform: rotateY(180deg);
+          transform: rotateY(180deg);
+}
+
+.card-container:hover > .card-body > .side-front {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1s ease-in, visibility .75s linear;
+}
+
+/*- Card sides -*/
+.card-side {
+  position: absolute;
+  top: 0;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  color: #212121;
+  background-color: #fff;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  box-shadow: 0 10px 35px rgba(50, 50, 93, 0.1), 0 2px 15px rgba(0, 0, 0, 0.07);
+}
+
+
+/*- Back side -*/
+.side-back {
+  z-index: 2;
+  padding: 0px;
+  text-align: center;
+  -webkit-transform: rotateY(180deg);
+          transform: rotateY(180deg);
+}
+
+
+
 
 div.root{
     max-width: 100vw;
@@ -98,10 +166,27 @@ div.textCard {
 }
 
 img{
-	margin-left: 51vw; 
-	margin-bottom: 30vh ;
+	/*margin-left: 51vw; 
+	margin-bottom: 30vh ;*/
 	width: 40px ; 
 	height: 40px;
+    position: fixed;
+    top: 125px;
+    right: 235px;
+
+}
+
+div.correctMessage{
+    font-size: 20pt;
+    background-color: #7CFC00;
+    min-width: 20vw;
+    min-height: 10vh; 
+    justify-content: center;
+    color: green;
+}
+
+div.span{
+    margin-top: 10px;
 }
 
 div.SmallCard{

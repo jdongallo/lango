@@ -11,11 +11,56 @@ function createCORSRequest(method, url) {
     return xhr;
 }
 
-function Card(props) {
-    return <div className="textCard">
-         {props.children}
-  </div>;
+// React component for the card (main component)
+class Card extends React.Component {
+  render() {
+    return(
+      <div className='card-container textCard'>
+        <div className='card-body'>
+          <CardBack text="Correct english translation" />
+
+          <CardFront text="Spanish stored flashcard" />  
+        </div>
+      </div>
+    )
   }
+}
+
+// React component for the front side of the card
+class CardFront extends React.Component {
+  render(props) {
+    return(
+      <div className='card-side side-front'>
+         <div className='card-side-container'>
+              
+            <h2 id='trans'>{this.props.text}</h2>
+
+        </div>
+      </div>
+    )
+  }
+}
+
+// React component for the back side of the card
+class CardBack extends React.Component {
+  render(props) {
+    return(
+      <div className='card-side side-back'>
+         <div className='card-side-container'>
+          <div className="correctMessage">
+            <span> CORRECT! </span>
+          </div>
+              <h2 id='congrats'>{this.props.text}</h2>
+        </div>
+      </div>
+    )
+  }
+}
+
+
+
+
+
   
 function SmallCard(props) {
     return <div className="SmallCard">

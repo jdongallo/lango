@@ -14,223 +14,322 @@ var engText = ""; // Used in saveInput function
 var transText = ""; // to store in database
 
 function createCORSRequest(method, url) {
-    var xhr = new XMLHttpRequest();
-    xhr.open(method, url, true);
-    return xhr;
+  var xhr = new XMLHttpRequest();
+  xhr.open(method, url, true);
+  return xhr;
 }
 
-function Card(props) {
-    return React.createElement(
+// React component for the card (main component)
+
+var Card = function (_React$Component) {
+  _inherits(Card, _React$Component);
+
+  function Card() {
+    _classCallCheck(this, Card);
+
+    return _possibleConstructorReturn(this, (Card.__proto__ || Object.getPrototypeOf(Card)).apply(this, arguments));
+  }
+
+  _createClass(Card, [{
+    key: "render",
+    value: function render() {
+      return React.createElement(
         "div",
-        { className: "textCard" },
-        props.children
-    );
-}
+        { className: "card-container textCard" },
+        React.createElement(
+          "div",
+          { className: "card-body" },
+          React.createElement(CardBack, { text: "Correct english translation" }),
+          React.createElement(CardFront, { text: "Spanish stored flashcard" })
+        )
+      );
+    }
+  }]);
+
+  return Card;
+}(React.Component);
+
+// React component for the front side of the card
+
+
+var CardFront = function (_React$Component2) {
+  _inherits(CardFront, _React$Component2);
+
+  function CardFront() {
+    _classCallCheck(this, CardFront);
+
+    return _possibleConstructorReturn(this, (CardFront.__proto__ || Object.getPrototypeOf(CardFront)).apply(this, arguments));
+  }
+
+  _createClass(CardFront, [{
+    key: "render",
+    value: function render(props) {
+      return React.createElement(
+        "div",
+        { className: "card-side side-front" },
+        React.createElement(
+          "div",
+          { className: "card-side-container" },
+          React.createElement(
+            "h2",
+            { id: "trans" },
+            this.props.text
+          )
+        )
+      );
+    }
+  }]);
+
+  return CardFront;
+}(React.Component);
+
+// React component for the back side of the card
+
+
+var CardBack = function (_React$Component3) {
+  _inherits(CardBack, _React$Component3);
+
+  function CardBack() {
+    _classCallCheck(this, CardBack);
+
+    return _possibleConstructorReturn(this, (CardBack.__proto__ || Object.getPrototypeOf(CardBack)).apply(this, arguments));
+  }
+
+  _createClass(CardBack, [{
+    key: "render",
+    value: function render(props) {
+      return React.createElement(
+        "div",
+        { className: "card-side side-back" },
+        React.createElement(
+          "div",
+          { className: "card-side-container" },
+          React.createElement(
+            "div",
+            { className: "correctMessage" },
+            React.createElement(
+              "span",
+              null,
+              " CORRECT! "
+            )
+          ),
+          React.createElement(
+            "h2",
+            { id: "congrats" },
+            this.props.text
+          )
+        )
+      );
+    }
+  }]);
+
+  return CardBack;
+}(React.Component);
 
 function SmallCard(props) {
-    return React.createElement(
-        "div",
-        { className: "SmallCard" },
-        props.children
-    );
+  return React.createElement(
+    "div",
+    { className: "SmallCard" },
+    props.children
+  );
 }
 
 function Txt(props) {
-    if (props.phrase == undefined) {
-        return React.createElement(
-            "p",
-            null,
-            "Text missing"
-        );
-    } else return React.createElement(
-        "p",
-        null,
-        props.phrase
+  if (props.phrase == undefined) {
+    return React.createElement(
+      "p",
+      null,
+      "Text missing"
     );
+  } else return React.createElement(
+    "p",
+    null,
+    props.phrase
+  );
 }
 
 function MakeHeader() {
-    return React.createElement(
-        "header",
-        null,
-        React.createElement(
-            "button",
-            { className: "cardButton" },
-            " Add "
-        ),
-        React.createElement(
-            "span",
-            { className: "LangoTitle" },
-            " Lango! "
-        )
-    );
+  return React.createElement(
+    "header",
+    null,
+    React.createElement(
+      "button",
+      { className: "cardButton" },
+      " Add "
+    ),
+    React.createElement(
+      "span",
+      { className: "LangoTitle" },
+      " Lango! "
+    )
+  );
 }
 
-var MakeFooter = function (_React$Component) {
-    _inherits(MakeFooter, _React$Component);
+var MakeFooter = function (_React$Component4) {
+  _inherits(MakeFooter, _React$Component4);
 
-    function MakeFooter(props) {
-        _classCallCheck(this, MakeFooter);
+  function MakeFooter(props) {
+    _classCallCheck(this, MakeFooter);
 
-        return _possibleConstructorReturn(this, (MakeFooter.__proto__ || Object.getPrototypeOf(MakeFooter)).call(this, props));
+    return _possibleConstructorReturn(this, (MakeFooter.__proto__ || Object.getPrototypeOf(MakeFooter)).call(this, props));
+  }
+
+  _createClass(MakeFooter, [{
+    key: "render",
+    value: function render() {
+      return React.createElement(
+        "footer",
+        null,
+        React.createElement(
+          "span",
+          null,
+          " username "
+        )
+      );
     }
+  }]);
 
-    _createClass(MakeFooter, [{
-        key: "render",
-        value: function render() {
-            return React.createElement(
-                "footer",
-                null,
-                React.createElement(
-                    "span",
-                    null,
-                    " username "
-                )
-            );
-        }
-    }]);
-
-    return MakeFooter;
+  return MakeFooter;
 }(React.Component);
 
-var SaveBtn = function (_React$Component2) {
-    _inherits(SaveBtn, _React$Component2);
+var SaveBtn = function (_React$Component5) {
+  _inherits(SaveBtn, _React$Component5);
 
-    function SaveBtn(props) {
-        _classCallCheck(this, SaveBtn);
+  function SaveBtn(props) {
+    _classCallCheck(this, SaveBtn);
 
-        var _this2 = _possibleConstructorReturn(this, (SaveBtn.__proto__ || Object.getPrototypeOf(SaveBtn)).call(this, props));
+    var _this5 = _possibleConstructorReturn(this, (SaveBtn.__proto__ || Object.getPrototypeOf(SaveBtn)).call(this, props));
 
-        _this2.saveInput = _this2.saveInput.bind(_this2);
-        return _this2;
+    _this5.saveInput = _this5.saveInput.bind(_this5);
+    return _this5;
+  }
+
+  _createClass(SaveBtn, [{
+    key: "render",
+    value: function render() {
+      return React.createElement(
+        "div",
+        { className: "SaveBtn" },
+        React.createElement(
+          "button",
+          { className: "Save", onClick: this.saveInput },
+          " Next "
+        )
+      );
     }
+  }, {
+    key: "saveInput",
+    value: function saveInput() {
+      var url = "/store?english=" + engText + "&spanish=" + transText;
+      var xhr = createCORSRequest('GET', url);
 
-    _createClass(SaveBtn, [{
-        key: "render",
-        value: function render() {
-            return React.createElement(
-                "div",
-                { className: "SaveBtn" },
-                React.createElement(
-                    "button",
-                    { className: "Save", onClick: this.saveInput },
-                    " Next "
-                )
-            );
-        }
-    }, {
-        key: "saveInput",
-        value: function saveInput() {
-            var url = "/store?english=" + engText + "&spanish=" + transText;
-            var xhr = createCORSRequest('GET', url);
+      if (!xhr) {
+        alert('CORS not supported');
+        return;
+      }
 
-            if (!xhr) {
-                alert('CORS not supported');
-                return;
-            }
+      xhr.onload = function () {
+        var responseStr = xhr.responseText;
+        console.log(responseStr);
+      }.bind(this);
 
-            xhr.onload = function () {
-                var responseStr = xhr.responseText;
-                console.log(responseStr);
-            }.bind(this);
+      xhr.onerror = function () {
+        alert('There was an error in making the request');
+      }.bind(this);
 
-            xhr.onerror = function () {
-                alert('There was an error in making the request');
-            }.bind(this);
+      xhr.send();
+    }
+  }]);
 
-            xhr.send();
-        }
-    }]);
-
-    return SaveBtn;
+  return SaveBtn;
 }(React.Component);
 
 // class 
 
-var CreateCardMain = function (_React$Component3) {
-    _inherits(CreateCardMain, _React$Component3);
+var CreateCardMain = function (_React$Component6) {
+  _inherits(CreateCardMain, _React$Component6);
 
-    function CreateCardMain(props) {
-        _classCallCheck(this, CreateCardMain);
+  function CreateCardMain(props) {
+    _classCallCheck(this, CreateCardMain);
 
-        var _this3 = _possibleConstructorReturn(this, (CreateCardMain.__proto__ || Object.getPrototypeOf(CreateCardMain)).call(this, props));
+    var _this6 = _possibleConstructorReturn(this, (CreateCardMain.__proto__ || Object.getPrototypeOf(CreateCardMain)).call(this, props));
 
-        _this3.state = { translation: "" };
+    _this6.state = { translation: "" };
 
-        _this3.getTranslation = _this3.getTranslation.bind(_this3);
-        return _this3;
-    }
+    _this6.getTranslation = _this6.getTranslation.bind(_this6);
+    return _this6;
+  }
 
-    _createClass(CreateCardMain, [{
-        key: "render",
-        value: function render() {
-            return React.createElement(
-                React.Fragment,
-                null,
-                React.createElement(MakeHeader, null),
-                React.createElement(
-                    "main",
-                    null,
-                    React.createElement(
-                        Card,
-                        null,
-                        React.createElement(
-                            "div",
-                            null,
-                            React.createElement("img", { src: "../assets/noun_Refresh_2310283.svg" })
-                        )
-                    ),
-                    React.createElement(
-                        SmallCard,
-                        null,
-                        React.createElement(Txt, { phrase: this.state.translation })
-                    )
-                ),
-                React.createElement(SaveBtn, null),
-                React.createElement(MakeFooter, null)
-            );
-        } // end of render function   
+  _createClass(CreateCardMain, [{
+    key: "render",
+    value: function render() {
+      return React.createElement(
+        React.Fragment,
+        null,
+        React.createElement(MakeHeader, null),
+        React.createElement(
+          "main",
+          null,
+          React.createElement(
+            Card,
+            null,
+            React.createElement(
+              "div",
+              null,
+              React.createElement("img", { src: "../assets/noun_Refresh_2310283.svg" })
+            )
+          ),
+          React.createElement(
+            SmallCard,
+            null,
+            React.createElement(Txt, { phrase: this.state.translation })
+          )
+        ),
+        React.createElement(SaveBtn, null),
+        React.createElement(MakeFooter, null)
+      );
+    } // end of render function   
 
-        // onKeyPress function for the textarea element
-        // When the charCode is 13, the user has hit the return key
-        //   checkReturn(event) {
-        //  if (event.charCode == 13) {
-        //     let newPhrase = document.getElementById("inputEng").value;
-        //     this.setState({opinion: newPhrase} );
-        //     }
-        //  }
+    // onKeyPress function for the textarea element
+    // When the charCode is 13, the user has hit the return key
+    //   checkReturn(event) {
+    //  if (event.charCode == 13) {
+    //     let newPhrase = document.getElementById("inputEng").value;
+    //     this.setState({opinion: newPhrase} );
+    //     }
+    //  }
 
-    }, {
-        key: "getTranslation",
-        value: function getTranslation(event) {
-            if (event.charCode == 13) {
-                var url = "/translate?english=" + document.getElementById("inputEng").value;
-                var xhr = createCORSRequest('GET', url);
+  }, {
+    key: "getTranslation",
+    value: function getTranslation(event) {
+      if (event.charCode == 13) {
+        var url = "/translate?english=" + document.getElementById("inputEng").value;
+        var xhr = createCORSRequest('GET', url);
 
-                if (!xhr) {
-                    alert('CORS not supported');
-                    return;
-                }
-
-                xhr.onload = function () {
-                    var responseStr = xhr.responseText;
-                    object = JSON.parse(responseStr);
-                    console.log(object);
-                    this.setState({ translation: object.Spanish });
-                    engText = object.English;
-                    transText = object.Spanish;
-                }.bind(this);
-
-                xhr.onerror = function () {
-                    alert('There was an error in making the request');
-                }.bind(this);
-
-                xhr.send();
-            }
+        if (!xhr) {
+          alert('CORS not supported');
+          return;
         }
-    }]);
 
-    return CreateCardMain;
+        xhr.onload = function () {
+          var responseStr = xhr.responseText;
+          object = JSON.parse(responseStr);
+          console.log(object);
+          this.setState({ translation: object.Spanish });
+          engText = object.English;
+          transText = object.Spanish;
+        }.bind(this);
+
+        xhr.onerror = function () {
+          alert('There was an error in making the request');
+        }.bind(this);
+
+        xhr.send();
+      }
+    }
+  }]);
+
+  return CreateCardMain;
 }(React.Component); // end of class
 
 
