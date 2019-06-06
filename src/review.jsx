@@ -11,11 +11,38 @@ function createCORSRequest(method, url) {
     return xhr;
 }
 
+
+class CardInput extends React.Component {
+  render() {
+    return(
+      <fieldset>
+        <input name={this.props.name} id={this.props.id} type={this.props.type || 'text'} placeholder={this.props.placeholder} required />
+      </fieldset>
+    )
+  }
+}
+
+// React component for textarea
+class CardTextarea extends React.Component {
+  constructor(props){
+    super(props);
+
+  }
+  render() {
+    return(
+      <fieldset>
+        <textarea name={this.props.name} id={this.props.id} placeholder={this.props.placeholder} required ></textarea>
+      </fieldset>
+    )
+  }
+}
+
+
 // React component for the card (main component)
 class Card extends React.Component {
   render() {
     return(
-      <div className='card-container textCard'>
+      <div  id="flipper" className='card-container textCard'>
         <div className='card-body'>
           <CardBack text="Correct english translation" />
 
@@ -28,11 +55,18 @@ class Card extends React.Component {
 
 // React component for the front side of the card
 class CardFront extends React.Component {
+  constructor(props){
+    super(props);
+
+  }
+
   render(props) {
     return(
       <div className='card-side side-front'>
          <div className='card-side-container'>
-              
+             <div className="icon">
+          <img  src="../assets/noun_Refresh_2310283.svg" />
+          </div> 
             <h2 id='trans'>{this.props.text}</h2>
 
         </div>
@@ -47,8 +81,8 @@ class CardBack extends React.Component {
     return(
       <div className='card-side side-back'>
          <div className='card-side-container'>
-          <div className="correctMessage">
-            <span> CORRECT! </span>
+          <div className="correctBox">
+            <span className="correctText"> CORRECT! </span>
           </div>
               <h2 id='congrats'>{this.props.text}</h2>
         </div>
@@ -88,6 +122,7 @@ function MakeHeader(){
 class MakeFooter extends React.Component {
   constructor(props){
     super(props);
+
   }
 
   render(){return(
@@ -156,7 +191,7 @@ class CreateCardMain extends React.Component {
           </div>
       </Card>
       <SmallCard>
-          <Txt phrase={this.state.translation} /> 
+          <CardTextarea />
       </SmallCard>
       </main>
       <SaveBtn />
@@ -164,7 +199,7 @@ class CreateCardMain extends React.Component {
       </React.Fragment>
       );
     } // end of render function   
-
+    // <textarea id="inputEng" onKeyPress={this.getTranslation} />
     // onKeyPress function for the textarea element
     // When the charCode is 13, the user has hit the return key
   //   checkReturn(event) {

@@ -29,12 +29,12 @@
 }
 
 /*- Flipping the card -*/
-.card-container:hover .card-body {
+.card-container:active .card-body {
   -webkit-transform: rotateY(180deg);
           transform: rotateY(180deg);
 }
 
-.card-container:hover > .card-body > .side-front {
+.card-container:active > .card-body > .side-front {
   opacity: 0;
   visibility: hidden;
   transition: opacity 1s ease-in, visibility .75s linear;
@@ -170,26 +170,33 @@ img{
 	margin-bottom: 30vh ;*/
 	width: 40px ; 
 	height: 40px;
-    position: fixed;
-    top: 125px;
-    right: 235px;
+    position: absolute;
+    top: 0px;
+    right: 5px;
 
 }
 
-div.correctMessage{
+.correctBox{
+    display: flex;
     font-size: 20pt;
-    background-color: #7CFC00;
+    background-color: #90EE90;
+    border: 5px;
+    border-color: #008000; 
     min-width: 20vw;
     min-height: 10vh; 
     justify-content: center;
-    color: green;
+    align-items: baseline;
+
+    padding-top: 28px;
+    
 }
 
-div.span{
+.correctText{
     margin-top: 10px;
+    color: #008000;
 }
 
-div.SmallCard{
+.SmallCard{
 	    
 	background-color: #ffffff;
     border-style: solid;
@@ -232,18 +239,18 @@ div.SmallCard{
 
 
 /* don't get weird blue border when I type */
-/*textarea:focus {
+textarea:focus {
     outline: none;
 }
 
 textarea {
     border: none;
-    font-size: 25px;
+    font-size: 20px;
     font-family: 'Helvetica', sans-serif;
 
-    min-width: 40vw; 
-    min-height: 15vh;
-}*/
+    min-width: 54vw; 
+    min-height: 11vh;
+}
 
 
 @media only screen and (max-width: 900px) {
@@ -284,9 +291,10 @@ div.textCard {
 
 }
 
-img{
-	margin-left: 55vw; 
-	margin-bottom: 28vh ;
+.icon{
+    position: absolute;
+    top: 0px;
+    right: 5px;
 	width: 40px ; 
 	height: 40px;
 }

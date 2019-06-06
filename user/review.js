@@ -19,10 +19,60 @@ function createCORSRequest(method, url) {
   return xhr;
 }
 
+var CardInput = function (_React$Component) {
+  _inherits(CardInput, _React$Component);
+
+  function CardInput() {
+    _classCallCheck(this, CardInput);
+
+    return _possibleConstructorReturn(this, (CardInput.__proto__ || Object.getPrototypeOf(CardInput)).apply(this, arguments));
+  }
+
+  _createClass(CardInput, [{
+    key: "render",
+    value: function render() {
+      return React.createElement(
+        "fieldset",
+        null,
+        React.createElement("input", { name: this.props.name, id: this.props.id, type: this.props.type || 'text', placeholder: this.props.placeholder, required: true })
+      );
+    }
+  }]);
+
+  return CardInput;
+}(React.Component);
+
+// React component for textarea
+
+
+var CardTextarea = function (_React$Component2) {
+  _inherits(CardTextarea, _React$Component2);
+
+  function CardTextarea(props) {
+    _classCallCheck(this, CardTextarea);
+
+    return _possibleConstructorReturn(this, (CardTextarea.__proto__ || Object.getPrototypeOf(CardTextarea)).call(this, props));
+  }
+
+  _createClass(CardTextarea, [{
+    key: "render",
+    value: function render() {
+      return React.createElement(
+        "fieldset",
+        null,
+        React.createElement("textarea", { name: this.props.name, id: this.props.id, placeholder: this.props.placeholder, required: true })
+      );
+    }
+  }]);
+
+  return CardTextarea;
+}(React.Component);
+
 // React component for the card (main component)
 
-var Card = function (_React$Component) {
-  _inherits(Card, _React$Component);
+
+var Card = function (_React$Component3) {
+  _inherits(Card, _React$Component3);
 
   function Card() {
     _classCallCheck(this, Card);
@@ -35,7 +85,7 @@ var Card = function (_React$Component) {
     value: function render() {
       return React.createElement(
         "div",
-        { className: "card-container textCard" },
+        { id: "flipper", className: "card-container textCard" },
         React.createElement(
           "div",
           { className: "card-body" },
@@ -46,19 +96,23 @@ var Card = function (_React$Component) {
     }
   }]);
 
+
   return Card;
+
+
+
 }(React.Component);
 
 // React component for the front side of the card
 
 
-var CardFront = function (_React$Component2) {
-  _inherits(CardFront, _React$Component2);
+var CardFront = function (_React$Component4) {
+  _inherits(CardFront, _React$Component4);
 
-  function CardFront() {
+  function CardFront(props) {
     _classCallCheck(this, CardFront);
 
-    return _possibleConstructorReturn(this, (CardFront.__proto__ || Object.getPrototypeOf(CardFront)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (CardFront.__proto__ || Object.getPrototypeOf(CardFront)).call(this, props));
   }
 
   _createClass(CardFront, [{
@@ -70,6 +124,11 @@ var CardFront = function (_React$Component2) {
         React.createElement(
           "div",
           { className: "card-side-container" },
+          React.createElement(
+            "div",
+            { className: "icon" },
+            React.createElement("img", { src: "../assets/noun_Refresh_2310283.svg" })
+          ),
           React.createElement(
             "h2",
             { id: "trans" },
@@ -86,8 +145,8 @@ var CardFront = function (_React$Component2) {
 // React component for the back side of the card
 
 
-var CardBack = function (_React$Component3) {
-  _inherits(CardBack, _React$Component3);
+var CardBack = function (_React$Component5) {
+  _inherits(CardBack, _React$Component5);
 
   function CardBack() {
     _classCallCheck(this, CardBack);
@@ -106,10 +165,10 @@ var CardBack = function (_React$Component3) {
           { className: "card-side-container" },
           React.createElement(
             "div",
-            { className: "correctMessage" },
+            { className: "correctBox" },
             React.createElement(
               "span",
-              null,
+              { className: "correctText" },
               " CORRECT! "
             )
           ),
@@ -165,8 +224,8 @@ function MakeHeader() {
   );
 }
 
-var MakeFooter = function (_React$Component4) {
-  _inherits(MakeFooter, _React$Component4);
+var MakeFooter = function (_React$Component6) {
+  _inherits(MakeFooter, _React$Component6);
 
   function MakeFooter(props) {
     _classCallCheck(this, MakeFooter);
@@ -192,16 +251,16 @@ var MakeFooter = function (_React$Component4) {
   return MakeFooter;
 }(React.Component);
 
-var SaveBtn = function (_React$Component5) {
-  _inherits(SaveBtn, _React$Component5);
+var SaveBtn = function (_React$Component7) {
+  _inherits(SaveBtn, _React$Component7);
 
   function SaveBtn(props) {
     _classCallCheck(this, SaveBtn);
 
-    var _this5 = _possibleConstructorReturn(this, (SaveBtn.__proto__ || Object.getPrototypeOf(SaveBtn)).call(this, props));
+    var _this7 = _possibleConstructorReturn(this, (SaveBtn.__proto__ || Object.getPrototypeOf(SaveBtn)).call(this, props));
 
-    _this5.saveInput = _this5.saveInput.bind(_this5);
-    return _this5;
+    _this7.saveInput = _this7.saveInput.bind(_this7);
+    return _this7;
   }
 
   _createClass(SaveBtn, [{
@@ -246,18 +305,18 @@ var SaveBtn = function (_React$Component5) {
 
 // class 
 
-var CreateCardMain = function (_React$Component6) {
-  _inherits(CreateCardMain, _React$Component6);
+var CreateCardMain = function (_React$Component8) {
+  _inherits(CreateCardMain, _React$Component8);
 
   function CreateCardMain(props) {
     _classCallCheck(this, CreateCardMain);
 
-    var _this6 = _possibleConstructorReturn(this, (CreateCardMain.__proto__ || Object.getPrototypeOf(CreateCardMain)).call(this, props));
+    var _this8 = _possibleConstructorReturn(this, (CreateCardMain.__proto__ || Object.getPrototypeOf(CreateCardMain)).call(this, props));
 
-    _this6.state = { translation: "" };
+    _this8.state = { translation: "" };
 
-    _this6.getTranslation = _this6.getTranslation.bind(_this6);
-    return _this6;
+    _this8.getTranslation = _this8.getTranslation.bind(_this8);
+    return _this8;
   }
 
   _createClass(CreateCardMain, [{
@@ -282,14 +341,14 @@ var CreateCardMain = function (_React$Component6) {
           React.createElement(
             SmallCard,
             null,
-            React.createElement(Txt, { phrase: this.state.translation })
+            React.createElement(CardTextarea, null)
           )
         ),
         React.createElement(SaveBtn, null),
         React.createElement(MakeFooter, null)
       );
     } // end of render function   
-
+    // <textarea id="inputEng" onKeyPress={this.getTranslation} />
     // onKeyPress function for the textarea element
     // When the charCode is 13, the user has hit the return key
     //   checkReturn(event) {
@@ -334,3 +393,5 @@ var CreateCardMain = function (_React$Component6) {
 
 
 ReactDOM.render(React.createElement(CreateCardMain, null), document.getElementById('root'));
+
+
