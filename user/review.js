@@ -19,8 +19,209 @@ function createCORSRequest(method, url) {
     return xhr;
 }
 
+<<<<<<< Updated upstream
 function Card(props) {
     return React.createElement(
+=======
+var CardInput = function (_React$Component) {
+  _inherits(CardInput, _React$Component);
+
+  function CardInput() {
+    _classCallCheck(this, CardInput);
+
+    return _possibleConstructorReturn(this, (CardInput.__proto__ || Object.getPrototypeOf(CardInput)).apply(this, arguments));
+  }
+
+  _createClass(CardInput, [{
+    key: "render",
+    value: function render() {
+      return React.createElement(
+        "fieldset",
+        null,
+        React.createElement("input", { name: this.props.name, id: this.props.id, type: this.props.type || 'text', placeholder: this.props.placeholder, required: true })
+      );
+    }
+  }]);
+
+  return CardInput;
+}(React.Component);
+
+// React component for textarea
+
+
+var CardTextarea = function (_React$Component2) {
+  _inherits(CardTextarea, _React$Component2);
+
+  function CardTextarea(props) {
+    _classCallCheck(this, CardTextarea);
+
+    return _possibleConstructorReturn(this, (CardTextarea.__proto__ || Object.getPrototypeOf(CardTextarea)).call(this, props));
+  }
+
+  _createClass(CardTextarea, [{
+    key: "render",
+    value: function render() {
+      return React.createElement(
+        "fieldset",
+        null,
+        React.createElement("textarea", { name: this.props.name, id: this.props.id, placeholder: this.props.placeholder, required: true })
+      );
+    }
+  }]);
+
+  return CardTextarea;
+}(React.Component);
+
+// React component for the card (main component)
+
+
+var Card = function (_React$Component3) {
+  _inherits(Card, _React$Component3);
+
+  function Card(props) {
+    _classCallCheck(this, Card);
+
+    var _this3 = _possibleConstructorReturn(this, (Card.__proto__ || Object.getPrototypeOf(Card)).call(this, props));
+
+    _this3.state = { english: "", spanish: "" };
+    _this3.nextCard = _this3.nextCard.bind(_this3);
+    _this3.getFlashcards = _this3.getFlashcards.bind(_this3);
+    _this3.flashcards = [];
+    return _this3;
+  }
+
+  _createClass(Card, [{
+    key: "render",
+    value: function render() {
+      return React.createElement(
+        "div",
+        { id: "flipper", className: "card-container textCard" },
+        React.createElement(
+          "div",
+          { className: "card-body" },
+          React.createElement(CardBack, { text: this.state.english }),
+          React.createElement(CardFront, { text: this.state.spanish })
+        )
+      );
+    }
+  }, {
+    key: "nextCard",
+    value: function nextCard() {
+      // while (true) {
+      //   let index = Math.floor(Math.random() * this.flashcards.length);
+      //   let correct = this.flashcards[index].numCorrect;
+      //   let seen = this.flashcards[index].numShown;
+      //   let eng = this.flashcards[index].engText;
+      //   let es = this.flashcards[index].transText
+      //   score = Math.max(1, 5-correct) + Math.max(1, 5-seen);
+      //   if (seen == 0) {
+      //     score += 5;
+      //   }
+      //   else {
+      //     score += 5 * ( Math.floor((seen-correct)/seen) );
+      //   }
+      //   let randNum = Math.floor(Math.random() * 16);
+      //   if (randNum <= score) {
+      //     this.setState({english: eng, spanish: es});
+      //     break;
+      //   }
+      // }
+      console.log(this.flashcards[0]);
+    }
+  }, {
+    key: "getFlashcards",
+    value: function getFlashcards() {
+      var url = "/flashcards";
+      var xhr = createCORSRequest('GET', url);
+
+      if (!xhr) {
+        alert('CORS not supported');
+        return;
+      }
+
+      xhr.onload = function () {
+        this.flashcards = JSON.parse(xhr.responseText);
+        console.log(this.flashcards);
+        var eng = this.flashcards[0].engText;
+        var es = this.flashcards[0].transText;
+        console.log(eng, es);
+        console.log(this.flashcards[0]);
+        this.setState({ english: eng, spanish: es });
+      }.bind(this);
+
+      xhr.onerror = function () {
+        alert('There was an error in making the request');
+      }.bind(this);
+
+      xhr.send();
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.getFlashcards();
+      this.nextCard();
+    }
+  }]);
+
+  return Card;
+}(React.Component);
+
+// React component for the front side of the card
+
+
+var CardFront = function (_React$Component4) {
+  _inherits(CardFront, _React$Component4);
+
+  function CardFront(props) {
+    _classCallCheck(this, CardFront);
+
+    return _possibleConstructorReturn(this, (CardFront.__proto__ || Object.getPrototypeOf(CardFront)).call(this, props));
+  }
+
+  _createClass(CardFront, [{
+    key: "render",
+    value: function render(props) {
+      return React.createElement(
+        "div",
+        { className: "card-side side-front" },
+        React.createElement(
+          "div",
+          { className: "card-side-container" },
+          React.createElement(
+            "div",
+            { className: "icon" },
+            React.createElement("img", { src: "../assets/noun_Refresh_2310283.svg" })
+          ),
+          React.createElement(
+            "h2",
+            { id: "trans" },
+            this.props.text
+          )
+        )
+      );
+    }
+  }]);
+
+  return CardFront;
+}(React.Component);
+
+// React component for the back side of the card
+
+
+var CardBack = function (_React$Component5) {
+  _inherits(CardBack, _React$Component5);
+
+  function CardBack() {
+    _classCallCheck(this, CardBack);
+
+    return _possibleConstructorReturn(this, (CardBack.__proto__ || Object.getPrototypeOf(CardBack)).apply(this, arguments));
+  }
+
+  _createClass(CardBack, [{
+    key: "render",
+    value: function render(props) {
+      return React.createElement(
+>>>>>>> Stashed changes
         "div",
         { className: "textCard" },
         props.children
@@ -157,6 +358,7 @@ var CreateCardMain = function (_React$Component3) {
 
         _this3.state = { translation: "" };
 
+<<<<<<< Updated upstream
         _this3.getTranslation = _this3.getTranslation.bind(_this3);
         return _this3;
     }
@@ -234,4 +436,40 @@ var CreateCardMain = function (_React$Component3) {
 }(React.Component); // end of class
 
 
+=======
+  _createClass(CreateCardMain, [{
+    key: "render",
+    value: function render() {
+      return React.createElement(
+        React.Fragment,
+        null,
+        React.createElement(MakeHeader, null),
+        React.createElement(
+          "main",
+          null,
+          React.createElement(
+            Card,
+            null,
+            React.createElement(
+              "div",
+              null,
+              React.createElement("img", { src: "../assets/noun_Refresh_2310283.svg" })
+            )
+          ),
+          React.createElement(
+            SmallCard,
+            null,
+            React.createElement(CardTextarea, null)
+          )
+        ),
+        React.createElement(SaveBtn, null),
+        React.createElement(MakeFooter, null)
+      );
+    }
+  }]);
+
+  return CreateCardMain;
+}(React.Component); // end of class
+
+>>>>>>> Stashed changes
 ReactDOM.render(React.createElement(CreateCardMain, null), document.getElementById('root'));
