@@ -41,22 +41,37 @@ function Txt(props) {
     );
 }
 
-function MakeHeader() {
-    return React.createElement(
-        "header",
-        null,
-        React.createElement(
-            "button",
-            { className: "cardButton" },
-            " Start Review "
-        ),
-        React.createElement(
-            "span",
-            { className: "LangoTitle" },
-            " Lango! "
-        )
-    );
-}
+var MakeHeader = function (_React$Component) {
+    _inherits(MakeHeader, _React$Component);
+
+    function MakeHeader() {
+        _classCallCheck(this, MakeHeader);
+
+        return _possibleConstructorReturn(this, (MakeHeader.__proto__ || Object.getPrototypeOf(MakeHeader)).apply(this, arguments));
+    }
+
+    _createClass(MakeHeader, [{
+        key: "render",
+        value: function render() {
+            return React.createElement(
+                "header",
+                null,
+                React.createElement(
+                    "a",
+                    { className: "cardButton", href: "review.html" },
+                    " Start Review "
+                ),
+                React.createElement(
+                    "span",
+                    { className: "LangoTitle" },
+                    " Lango! "
+                )
+            );
+        }
+    }]);
+
+    return MakeHeader;
+}(React.Component);
 
 function MakeFooter(props) {
     return React.createElement(
@@ -70,16 +85,16 @@ function MakeFooter(props) {
     );
 }
 
-var SaveBtn = function (_React$Component) {
-    _inherits(SaveBtn, _React$Component);
+var SaveBtn = function (_React$Component2) {
+    _inherits(SaveBtn, _React$Component2);
 
     function SaveBtn(props) {
         _classCallCheck(this, SaveBtn);
 
-        var _this = _possibleConstructorReturn(this, (SaveBtn.__proto__ || Object.getPrototypeOf(SaveBtn)).call(this, props));
+        var _this2 = _possibleConstructorReturn(this, (SaveBtn.__proto__ || Object.getPrototypeOf(SaveBtn)).call(this, props));
 
-        _this.saveInput = _this.saveInput.bind(_this);
-        return _this;
+        _this2.saveInput = _this2.saveInput.bind(_this2);
+        return _this2;
     }
 
     _createClass(SaveBtn, [{
@@ -122,18 +137,18 @@ var SaveBtn = function (_React$Component) {
     return SaveBtn;
 }(React.Component);
 
-var CreateCardMain = function (_React$Component2) {
-    _inherits(CreateCardMain, _React$Component2);
+var CreateCardMain = function (_React$Component3) {
+    _inherits(CreateCardMain, _React$Component3);
 
     function CreateCardMain(props) {
         _classCallCheck(this, CreateCardMain);
 
-        var _this2 = _possibleConstructorReturn(this, (CreateCardMain.__proto__ || Object.getPrototypeOf(CreateCardMain)).call(this, props));
+        var _this3 = _possibleConstructorReturn(this, (CreateCardMain.__proto__ || Object.getPrototypeOf(CreateCardMain)).call(this, props));
 
-        _this2.state = { translation: "" };
+        _this3.state = { translation: "" };
 
-        _this2.getTranslation = _this2.getTranslation.bind(_this2);
-        return _this2;
+        _this3.getTranslation = _this3.getTranslation.bind(_this3);
+        return _this3;
     }
 
     _createClass(CreateCardMain, [{

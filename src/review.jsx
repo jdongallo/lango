@@ -4,6 +4,7 @@ let object = undefined;
 const input = document.getElementById("word");
 let engText = ""; // Used in saveInput function 
 let transText = ""; // to store in database
+let flashcards = [];
 
 function createCORSRequest(method, url) {
     let xhr = new XMLHttpRequest();
@@ -40,6 +41,9 @@ class CardTextarea extends React.Component {
 
 // React component for the card (main component)
 class Card extends React.Component {
+  constructor(props){
+    super(props);
+  }
   render() {
     return(
       <div  id="flipper" className='card-container textCard'>
@@ -51,6 +55,27 @@ class Card extends React.Component {
       </div>
     )
   }
+
+  // nextCard(){
+  //   while (true) {
+  //     let index = Math.floor(Math.random() * flashcards.length);
+  //     let correct = flashcards[index].numCorrect;
+  //     let seen = flashcards[index].numShown;
+  //     score = Math.max(1, 5-correct) + Math.max(1, 5-seen);
+  //     if (seen == 0) {
+  //       score += 5;
+  //     }
+  //     else {
+  //       score += 5 * ( Math.floor((seen-correct)/seen) );
+  //     }
+  //     let randNum = Math.floor(Math.random() * 16);
+  //     if (randNum <= score) {
+  //       this.currCard = flashcards[index].engText;
+  //       break;
+  //     }
+  //   }
+  // }
+
 }
 
 // React component for the front side of the card
@@ -92,15 +117,28 @@ class CardBack extends React.Component {
 }
 
 
-
-
-
+function SmallCard(props){
+  return( <div className="SmallCard"> 
+          {props.children}
+          </div> ) 
+}  
+// class SmallCard extends React.Component{
+//   constructor(props){
+//     super(props);
+//     this.nextCard = this.nextCard.bind(this);
+    
+//   }
+//    render(){
+//       return <div className="SmallCard">
+//                 {this.currCard}
+//           </div>  
+//         }
   
-function SmallCard(props) {
-    return <div className="SmallCard">
-         {props.children}
-  </div>;
-  }  
+
+
+
+//   }
+
 
 function Txt(props) {
    if (props.phrase == undefined) {
@@ -112,7 +150,7 @@ function Txt(props) {
 function MakeHeader(){
   return(
       <header>
-        <button className="cardButton"> Add </button>
+        <a className="cardButton" href="lango.html"> Add </a>
         <span className="LangoTitle"> Lango! </span> 
       </header>
       );
@@ -137,38 +175,18 @@ class MakeFooter extends React.Component {
 class SaveBtn extends React.Component{
   constructor(props) {
       super(props);
-      this.saveInput = this.saveInput.bind(this);
+      // this.saveInput = this.saveInput.bind(this);
       }
 
     render(){ return (
       <div className="SaveBtn">
-       <button className="Save" onClick={this.saveInput}> Next </button>
+       <button className="Save"> Next </button>
       </div>
       );
     }
+ }
 
-    saveInput() {
-      let url = "/store?english=" + engText + "&spanish=" + transText;
-      let xhr = createCORSRequest('GET', url);
-  
-      if (!xhr) {
-          alert('CORS not supported');
-          return;
-      }
-  
-      xhr.onload = function() {
-          let responseStr = xhr.responseText;
-          console.log(responseStr);
-      }.bind(this)
-  
-      xhr.onerror = function() {
-          alert('There was an error in making the request');
-      }.bind(this)
-  
-      xhr.send();
-  }
-}
-
+    // go to next flashcard instead
 
 // class 
 
@@ -176,9 +194,9 @@ class CreateCardMain extends React.Component {
 
   constructor(props) {
       super(props);
-      this.state = { translation: "" }
-
-      this.getTranslation = this.getTranslation.bind(this);
+      this.state = { translation: "" };
+      // this.nextCard = this.nextCard.bind(this);
+      // this.currCard = this.currCard.bind(this);
       }
 
   render() {return (
@@ -191,7 +209,7 @@ class CreateCardMain extends React.Component {
           </div>
       </Card>
       <SmallCard>
-          <CardTextarea />
+          <CardTextarea  />
       </SmallCard>
       </main>
       <SaveBtn />
@@ -209,36 +227,53 @@ class CreateCardMain extends React.Component {
   //     }
   //  }
 
-  getTranslation(event) {
-    if (event.charCode == 13) {
-        let url = "/translate?english=" + document.getElementById("inputEng").value;
-        let xhr = createCORSRequest('GET', url);
-    
-        if (!xhr) {
-            alert('CORS not supported');
-            return;
-        }
-    
-        xhr.onload = function() {
-            let responseStr = xhr.responseText;
-            object = JSON.parse(responseStr);
-            console.log(object);
-            this.setState({translation: object.Spanish});
-            engText = object.English;
-            transText = object.Spanish;
-        }.bind(this)
-    
-        xhr.onerror = function() {
-            alert('There was an error in making the request');
-        }.bind(this)
-    
-        xhr.send();
-    }
-  }
+
+  // nextCard(){
+  //   while (true) {
+  //     let index = Math.floor(Math.random() * flashcards.length);
+  //     let correct = flashcards[index].numCorrect;
+  //     let seen = flashcards[index].numShown;
+  //     score = Math.max(1, 5-correct) + Math.max(1, 5-seen);
+  //     if (seen == 0) {
+  //       score += 5;
+  //     }
+  //     else {
+  //       score += 5 * ( Math.floor((seen-correct)/seen) );
+  //     }
+  //     let randNum = Math.floor(Math.random() * 16);
+  //     if (randNum <= score) {
+  //       this.currCard = flashcards[index].engText;
+  //       break;
+  //     }
+  //   }
+  // }
 
 } // end of class
 
 
+
+function getFlashcards() {
+      let url = "/flashcards";
+      let xhr = createCORSRequest('GET', url);
+  
+      if (!xhr) {
+          alert('CORS not supported');
+          return;
+      }
+  
+      xhr.onload = function() {
+          flashcards = xhr.responseText;
+          console.log(flashcards);
+      }
+  
+      xhr.onerror = function() {
+          alert('There was an error in making the request');
+      }
+  
+      xhr.send();
+}
+
+getFlashcards();
 
 ReactDOM.render(
     <CreateCardMain />,

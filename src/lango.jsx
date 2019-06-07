@@ -25,14 +25,17 @@ function Txt(props) {
    else return <p>{props.phrase}</p>;
    }
 
-function MakeHeader(){
+class MakeHeader extends React.Component{
+  render(){
   return(
       <header>
-        <button className="cardButton"> Start Review </button>
+        <a className="cardButton" href='review.html'> Start Review </a>
         <span className="LangoTitle"> Lango! </span> 
       </header>
       );
 }
+}
+
 
 function MakeFooter(props) {
   return(

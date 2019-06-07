@@ -12,6 +12,7 @@ var object = undefined;
 var input = document.getElementById("word");
 var engText = ""; // Used in saveInput function 
 var transText = ""; // to store in database
+var flashcards = [];
 
 function createCORSRequest(method, url) {
   var xhr = new XMLHttpRequest();
@@ -74,10 +75,10 @@ var CardTextarea = function (_React$Component2) {
 var Card = function (_React$Component3) {
   _inherits(Card, _React$Component3);
 
-  function Card() {
+  function Card(props) {
     _classCallCheck(this, Card);
 
-    return _possibleConstructorReturn(this, (Card.__proto__ || Object.getPrototypeOf(Card)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (Card.__proto__ || Object.getPrototypeOf(Card)).call(this, props));
   }
 
   _createClass(Card, [{
@@ -94,13 +95,30 @@ var Card = function (_React$Component3) {
         )
       );
     }
+
+    // nextCard(){
+    //   while (true) {
+    //     let index = Math.floor(Math.random() * flashcards.length);
+    //     let correct = flashcards[index].numCorrect;
+    //     let seen = flashcards[index].numShown;
+    //     score = Math.max(1, 5-correct) + Math.max(1, 5-seen);
+    //     if (seen == 0) {
+    //       score += 5;
+    //     }
+    //     else {
+    //       score += 5 * ( Math.floor((seen-correct)/seen) );
+    //     }
+    //     let randNum = Math.floor(Math.random() * 16);
+    //     if (randNum <= score) {
+    //       this.currCard = flashcards[index].engText;
+    //       break;
+    //     }
+    //   }
+    // }
+
   }]);
 
-
   return Card;
-
-
-
 }(React.Component);
 
 // React component for the front side of the card
@@ -192,6 +210,21 @@ function SmallCard(props) {
     props.children
   );
 }
+// class SmallCard extends React.Component{
+//   constructor(props){
+//     super(props);
+//     this.nextCard = this.nextCard.bind(this);
+
+//   }
+//    render(){
+//       return <div className="SmallCard">
+//                 {this.currCard}
+//           </div>  
+//         }
+
+
+//   }
+
 
 function Txt(props) {
   if (props.phrase == undefined) {
@@ -212,8 +245,8 @@ function MakeHeader() {
     "header",
     null,
     React.createElement(
-      "button",
-      { className: "cardButton" },
+      "a",
+      { className: "cardButton", href: "lango.html" },
       " Add "
     ),
     React.createElement(
@@ -257,10 +290,8 @@ var SaveBtn = function (_React$Component7) {
   function SaveBtn(props) {
     _classCallCheck(this, SaveBtn);
 
-    var _this7 = _possibleConstructorReturn(this, (SaveBtn.__proto__ || Object.getPrototypeOf(SaveBtn)).call(this, props));
-
-    _this7.saveInput = _this7.saveInput.bind(_this7);
-    return _this7;
+    return _possibleConstructorReturn(this, (SaveBtn.__proto__ || Object.getPrototypeOf(SaveBtn)).call(this, props));
+    // this.saveInput = this.saveInput.bind(this);
   }
 
   _createClass(SaveBtn, [{
@@ -271,37 +302,17 @@ var SaveBtn = function (_React$Component7) {
         { className: "SaveBtn" },
         React.createElement(
           "button",
-          { className: "Save", onClick: this.saveInput },
+          { className: "Save" },
           " Next "
         )
       );
-    }
-  }, {
-    key: "saveInput",
-    value: function saveInput() {
-      var url = "/store?english=" + engText + "&spanish=" + transText;
-      var xhr = createCORSRequest('GET', url);
-
-      if (!xhr) {
-        alert('CORS not supported');
-        return;
-      }
-
-      xhr.onload = function () {
-        var responseStr = xhr.responseText;
-        console.log(responseStr);
-      }.bind(this);
-
-      xhr.onerror = function () {
-        alert('There was an error in making the request');
-      }.bind(this);
-
-      xhr.send();
     }
   }]);
 
   return SaveBtn;
 }(React.Component);
+
+// go to next flashcard instead
 
 // class 
 
@@ -314,8 +325,8 @@ var CreateCardMain = function (_React$Component8) {
     var _this8 = _possibleConstructorReturn(this, (CreateCardMain.__proto__ || Object.getPrototypeOf(CreateCardMain)).call(this, props));
 
     _this8.state = { translation: "" };
-
-    _this8.getTranslation = _this8.getTranslation.bind(_this8);
+    // this.nextCard = this.nextCard.bind(this);
+    // this.currCard = this.currCard.bind(this);
     return _this8;
   }
 
@@ -358,40 +369,54 @@ var CreateCardMain = function (_React$Component8) {
     //     }
     //  }
 
-  }, {
-    key: "getTranslation",
-    value: function getTranslation(event) {
-      if (event.charCode == 13) {
-        var url = "/translate?english=" + document.getElementById("inputEng").value;
-        var xhr = createCORSRequest('GET', url);
 
-        if (!xhr) {
-          alert('CORS not supported');
-          return;
-        }
+    // nextCard(){
+    //   while (true) {
+    //     let index = Math.floor(Math.random() * flashcards.length);
+    //     let correct = flashcards[index].numCorrect;
+    //     let seen = flashcards[index].numShown;
+    //     score = Math.max(1, 5-correct) + Math.max(1, 5-seen);
+    //     if (seen == 0) {
+    //       score += 5;
+    //     }
+    //     else {
+    //       score += 5 * ( Math.floor((seen-correct)/seen) );
+    //     }
+    //     let randNum = Math.floor(Math.random() * 16);
+    //     if (randNum <= score) {
+    //       this.currCard = flashcards[index].engText;
+    //       break;
+    //     }
+    //   }
+    // }
 
-        xhr.onload = function () {
-          var responseStr = xhr.responseText;
-          object = JSON.parse(responseStr);
-          console.log(object);
-          this.setState({ translation: object.Spanish });
-          engText = object.English;
-          transText = object.Spanish;
-        }.bind(this);
-
-        xhr.onerror = function () {
-          alert('There was an error in making the request');
-        }.bind(this);
-
-        xhr.send();
-      }
-    }
   }]);
 
   return CreateCardMain;
 }(React.Component); // end of class
 
 
+function getFlashcards() {
+  var url = "/flashcards";
+  var xhr = createCORSRequest('GET', url);
+
+  if (!xhr) {
+    alert('CORS not supported');
+    return;
+  }
+
+  xhr.onload = function () {
+    flashcards = xhr.responseText;
+    console.log(flashcards);
+  };
+
+  xhr.onerror = function () {
+    alert('There was an error in making the request');
+  };
+
+  xhr.send();
+}
+
+getFlashcards();
+
 ReactDOM.render(React.createElement(CreateCardMain, null), document.getElementById('root'));
-
-
