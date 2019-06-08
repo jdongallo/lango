@@ -8,12 +8,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var object = undefined;
-var input = document.getElementById("word");
-var engText = ""; // Used in saveInput function 
-var transText = ""; // to store in database
-var flashcards = [];
-
 function createCORSRequest(method, url) {
   var xhr = new XMLHttpRequest();
   xhr.open(method, url, true);
@@ -30,12 +24,12 @@ var CardInput = function (_React$Component) {
   }
 
   _createClass(CardInput, [{
-    key: "render",
+    key: 'render',
     value: function render() {
       return React.createElement(
-        "fieldset",
+        'fieldset',
         null,
-        React.createElement("input", { name: this.props.name, id: this.props.id, type: this.props.type || 'text', placeholder: this.props.placeholder, required: true })
+        React.createElement('input', { name: this.props.name, id: this.props.id, type: this.props.type || 'text', placeholder: this.props.placeholder, required: true })
       );
     }
   }]);
@@ -56,12 +50,12 @@ var CardTextarea = function (_React$Component2) {
   }
 
   _createClass(CardTextarea, [{
-    key: "render",
+    key: 'render',
     value: function render() {
       return React.createElement(
-        "fieldset",
+        'fieldset',
         null,
-        React.createElement("textarea", { name: this.props.name, id: this.props.id, placeholder: this.props.placeholder, required: true })
+        React.createElement('textarea', { name: this.props.name, id: this.props.id, placeholder: this.props.placeholder, required: true })
       );
     }
   }]);
@@ -80,66 +74,68 @@ var Card = function (_React$Component3) {
 
     var _this3 = _possibleConstructorReturn(this, (Card.__proto__ || Object.getPrototypeOf(Card)).call(this, props));
 
-    _this3.state = { SpanishT: "" };
+    _this3.state = { english: "", spanish: "" };
     _this3.getFlashcards = _this3.getFlashcards.bind(_this3);
-    // this.passSpanish = this.passSpanish.bind(this);
-    // this.currCard = undefined;
     _this3.nextCard = _this3.nextCard.bind(_this3);
+    _this3.flashcards = [];
     return _this3;
   }
 
   _createClass(Card, [{
-    key: "render",
+    key: 'render',
     value: function render() {
       return React.createElement(
-        "div",
-        { id: "flipper", className: "card-container textCard" },
+        React.Fragment,
+        null,
         React.createElement(
-          "div",
-          { className: "card-body" },
-          React.createElement(CardBack, { text: "Correct english translation" }),
-          React.createElement(CardFront, { text: "inprogress" })
-        )
+          'div',
+          { id: 'flipper', className: 'card-container textCard' },
+          React.createElement(
+            'div',
+            { className: 'card-body' },
+            React.createElement(CardBack, { text: this.state.english }),
+            React.createElement(CardFront, { text: this.state.spanish })
+          )
+        ),
+        React.createElement(
+          SmallCard,
+          null,
+          React.createElement(CardTextarea, null)
+        ),
+        React.createElement(NextBtn, { nextCard: this.nextCard })
       );
     }
   }, {
-    key: "componentDidMount",
+    key: 'componentDidMount',
     value: function componentDidMount() {
       this.getFlashcards();
-      this.nextCard();
-      // this.passSpanish();
     }
   }, {
-    key: "nextCard",
-    value: function nextCard() {}
-    // while (true) {
-    //   let index = Math.floor(Math.random() * flashcards.length);
-    //   let correct = flashcards[index].numCorrect;
-    //   let seen = flashcards[index].numShown;
-    //   score = Math.max(1, 5-correct) + Math.max(1, 5-seen);
-    //   if (seen == 0) {
-    //     score += 5;
-    //   }
-    //   else {
-    //     score += 5 * ( Math.floor((seen-correct)/seen) );
-    //   }
-    //   let randNum = Math.floor(Math.random() * 16);
-    //   if (randNum <= score) {
-    //     this.currCard = flashcards[index].engText;
-    //     break;
-    //   }
-    // }
-
-    // passSpanish(){
-    //   // this.currCard is undefined
-    //   console.log("4" + this.currCard);
-
-    // // componentDidMount(){
-    // //   this.getFlashcards();
-    //}
-
+    key: 'nextCard',
+    value: function nextCard() {
+      var eng = '';
+      var es = '';
+      while (true) {
+        var index = Math.floor(Math.random() * this.flashcards.length);
+        var correct = this.flashcards[index].numCorrect;
+        var seen = this.flashcards[index].numShown;
+        var score = Math.max(1, 5 - correct) + Math.max(1, 5 - seen);
+        if (seen == 0) {
+          score += 5;
+        } else {
+          score += 5 * Math.floor((seen - correct) / seen);
+        }
+        var randNum = Math.floor(Math.random() * 16);
+        if (randNum <= score) {
+          eng = this.flashcards[index].engText;
+          es = this.flashcards[index].transText;
+          break;
+        }
+      }
+      this.setState({ english: eng, spanish: es });
+    }
   }, {
-    key: "getFlashcards",
+    key: 'getFlashcards',
     value: function getFlashcards() {
       var url = "/flashcards";
       var xhr = createCORSRequest('GET', url);
@@ -151,18 +147,14 @@ var Card = function (_React$Component3) {
 
       xhr.onload = function () {
         var responseStr = xhr.responseText;
-        flashcards = JSON.parse(responseStr);
-        console.log(flashcards);
-        // let index=0;    
-        // for( index ; index < 4; index++){
-        //   flashcards[index].engText;
-        //   flashcards[index].transText;
-        // }
-      };
+        this.flashcards = JSON.parse(responseStr);
+        console.log(this.flashcards);
+        this.nextCard();
+      }.bind(this);
 
       xhr.onerror = function () {
         alert('There was an error in making the request');
-      };
+      }.bind(this);
 
       xhr.send();
     }
@@ -184,22 +176,22 @@ var CardFront = function (_React$Component4) {
   }
 
   _createClass(CardFront, [{
-    key: "render",
+    key: 'render',
     value: function render(props) {
       return React.createElement(
-        "div",
-        { className: "card-side side-front" },
+        'div',
+        { className: 'card-side side-front' },
         React.createElement(
-          "div",
-          { className: "card-side-container" },
+          'div',
+          { className: 'card-side-container' },
           React.createElement(
-            "div",
-            { className: "icon" },
-            React.createElement("img", { src: "../assets/noun_Refresh_2310283.svg" })
+            'div',
+            { className: 'icon' },
+            React.createElement('img', { src: '../assets/noun_Refresh_2310283.svg' })
           ),
           React.createElement(
-            "h2",
-            { id: "trans" },
+            'h2',
+            { id: 'trans' },
             this.props.text
           )
         )
@@ -223,26 +215,26 @@ var CardBack = function (_React$Component5) {
   }
 
   _createClass(CardBack, [{
-    key: "render",
+    key: 'render',
     value: function render(props) {
       return React.createElement(
-        "div",
-        { className: "card-side side-back" },
+        'div',
+        { className: 'card-side side-back' },
         React.createElement(
-          "div",
-          { className: "card-side-container" },
+          'div',
+          { className: 'card-side-container' },
           React.createElement(
-            "div",
-            { className: "correctBox" },
+            'div',
+            { className: 'correctBox' },
             React.createElement(
-              "span",
-              { className: "correctText" },
-              " CORRECT! "
+              'span',
+              { className: 'correctText' },
+              ' CORRECT! '
             )
           ),
           React.createElement(
-            "h2",
-            { id: "congrats" },
+            'h2',
+            { id: 'congrats' },
             this.props.text
           )
         )
@@ -255,36 +247,21 @@ var CardBack = function (_React$Component5) {
 
 function SmallCard(props) {
   return React.createElement(
-    "div",
-    { className: "SmallCard" },
+    'div',
+    { className: 'SmallCard' },
     props.children
   );
 }
-// class SmallCard extends React.Component{
-//   constructor(props){
-//     super(props);
-//     this.nextCard = this.nextCard.bind(this);
-
-//   }
-//    render(){
-//       return <div className="SmallCard">
-//                 {this.currCard}
-//           </div>  
-//         }
-
-
-//   }
-
 
 function Txt(props) {
   if (props.phrase == undefined) {
     return React.createElement(
-      "p",
+      'p',
       null,
-      "Text missing"
+      'Text missing'
     );
   } else return React.createElement(
-    "p",
+    'p',
     null,
     props.phrase
   );
@@ -292,17 +269,17 @@ function Txt(props) {
 
 function MakeHeader() {
   return React.createElement(
-    "header",
+    'header',
     null,
     React.createElement(
-      "a",
-      { className: "cardButton", href: "lango.html" },
-      " Add "
+      'a',
+      { className: 'cardButton', href: 'lango.html' },
+      ' Add '
     ),
     React.createElement(
-      "span",
-      { className: "LangoTitle" },
-      " Lango! "
+      'span',
+      { className: 'LangoTitle' },
+      ' Lango! '
     )
   );
 }
@@ -317,15 +294,15 @@ var MakeFooter = function (_React$Component6) {
   }
 
   _createClass(MakeFooter, [{
-    key: "render",
+    key: 'render',
     value: function render() {
       return React.createElement(
-        "footer",
+        'footer',
         null,
         React.createElement(
-          "span",
+          'span',
           null,
-          " username "
+          ' username '
         )
       );
     }
@@ -334,37 +311,32 @@ var MakeFooter = function (_React$Component6) {
   return MakeFooter;
 }(React.Component);
 
-var SaveBtn = function (_React$Component7) {
-  _inherits(SaveBtn, _React$Component7);
+var NextBtn = function (_React$Component7) {
+  _inherits(NextBtn, _React$Component7);
 
-  function SaveBtn(props) {
-    _classCallCheck(this, SaveBtn);
+  function NextBtn(props) {
+    _classCallCheck(this, NextBtn);
 
-    return _possibleConstructorReturn(this, (SaveBtn.__proto__ || Object.getPrototypeOf(SaveBtn)).call(this, props));
-    // this.saveInput = this.saveInput.bind(this);
+    return _possibleConstructorReturn(this, (NextBtn.__proto__ || Object.getPrototypeOf(NextBtn)).call(this, props));
   }
 
-  _createClass(SaveBtn, [{
-    key: "render",
+  _createClass(NextBtn, [{
+    key: 'render',
     value: function render() {
       return React.createElement(
-        "div",
-        { className: "SaveBtn" },
+        'div',
+        { className: 'SaveBtn' },
         React.createElement(
-          "button",
-          { className: "Save" },
-          " Next "
+          'button',
+          { className: 'Save', onClick: this.props.nextCard },
+          ' Next '
         )
       );
     }
   }]);
 
-  return SaveBtn;
+  return NextBtn;
 }(React.Component);
-
-// go to next flashcard instead
-
-// class 
 
 var CreateCardMain = function (_React$Component8) {
   _inherits(CreateCardMain, _React$Component8);
@@ -372,103 +344,35 @@ var CreateCardMain = function (_React$Component8) {
   function CreateCardMain(props) {
     _classCallCheck(this, CreateCardMain);
 
-    var _this8 = _possibleConstructorReturn(this, (CreateCardMain.__proto__ || Object.getPrototypeOf(CreateCardMain)).call(this, props));
-
-    _this8.state = { translation: "" };
-    // this.getFlashcards = this.getFlashcards.bind(this);
-    // this.nextCard = this.nextCard.bind(this);
-    // this.currCard = this.currCard.bind(this);
-    return _this8;
+    return _possibleConstructorReturn(this, (CreateCardMain.__proto__ || Object.getPrototypeOf(CreateCardMain)).call(this, props));
   }
 
   _createClass(CreateCardMain, [{
-    key: "render",
+    key: 'render',
     value: function render() {
       return React.createElement(
         React.Fragment,
         null,
         React.createElement(MakeHeader, null),
         React.createElement(
-          "main",
+          'main',
           null,
           React.createElement(
             Card,
             null,
             React.createElement(
-              "div",
+              'div',
               null,
-              React.createElement("img", { src: "../assets/noun_Refresh_2310283.svg" })
+              React.createElement('img', { src: '../assets/noun_Refresh_2310283.svg' })
             )
-          ),
-          React.createElement(
-            SmallCard,
-            null,
-            React.createElement(CardTextarea, null)
           )
         ),
-        React.createElement(SaveBtn, null),
         React.createElement(MakeFooter, null)
       );
-    } // end of render function   
-    // <textarea id="inputEng" onKeyPress={this.getTranslation} />
-    // onKeyPress function for the textarea element
-    // When the charCode is 13, the user has hit the return key
-    //   checkReturn(event) {
-    //  if (event.charCode == 13) {
-    //     let newPhrase = document.getElementById("inputEng").value;
-    //     this.setState({opinion: newPhrase} );
-    //     }
-    //  }
-
-
-    // nextCard(){
-    //   while (true) {
-    //     let index = Math.floor(Math.random() * flashcards.length);
-    //     let correct = flashcards[index].numCorrect;
-    //     let seen = flashcards[index].numShown;
-    //     score = Math.max(1, 5-correct) + Math.max(1, 5-seen);
-    //     if (seen == 0) {
-    //       score += 5;
-    //     }
-    //     else {
-    //       score += 5 * ( Math.floor((seen-correct)/seen) );
-    //     }
-    //     let randNum = Math.floor(Math.random() * 16);
-    //     if (randNum <= score) {
-    //       this.currCard = flashcards[index].engText;
-    //       break;
-    //     }
-    //   }
-    // }
-
-
+    }
   }]);
 
   return CreateCardMain;
 }(React.Component); // end of class
-
-
-// function getFlashcards() {
-//       let url = "/flashcards";
-//       let xhr = createCORSRequest('GET', url);
-
-//       if (!xhr) {
-//           alert('CORS not supported');
-//           return;
-//       }
-
-//       xhr.onload = function() {
-//           flashcards = xhr.responseText;
-//           console.log(flashcards);
-//       }
-
-//       xhr.onerror = function() {
-//           alert('There was an error in making the request');
-//       }
-
-//       xhr.send();
-// }
-
-// getFlashcards();
 
 ReactDOM.render(React.createElement(CreateCardMain, null), document.getElementById('root'));

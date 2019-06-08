@@ -1,11 +1,5 @@
 'use strict'
 
-let object = undefined;
-const input = document.getElementById("word");
-let engText = ""; // Used in saveInput function 
-let transText = ""; // to store in database
-let flashcards = [];
-
 function createCORSRequest(method, url) {
     let xhr = new XMLHttpRequest();
     xhr.open(method, url, true);
@@ -43,86 +37,80 @@ class CardTextarea extends React.Component {
 class Card extends React.Component {
   constructor(props){
     super(props);
-    this.state = {SpanishT: ""};
+    this.state = {english: "", spanish: ""};
     this.getFlashcards = this.getFlashcards.bind(this);
-    // this.passSpanish = this.passSpanish.bind(this);
-    // this.currCard = undefined;
     this.nextCard = this.nextCard.bind(this);
+    this.flashcards = [];
   }
   render() {
     return(
-      <div  id="flipper" className='card-container textCard'>
-        <div className='card-body'>
-          <CardBack text="Correct english translation" />
+      <React.Fragment>
+        <div  id="flipper" className='card-container textCard'>
+          <div className='card-body'>
+            <CardBack text={this.state.english} />
 
-          <CardFront text="inprogress" />  
+            <CardFront text={this.state.spanish} />  
+          </div>
         </div>
-      </div>
+        <SmallCard>
+        <CardTextarea  />
+        </SmallCard>
+        <NextBtn nextCard = {this.nextCard}/>
+      </React.Fragment>
     )
   }  
 
   componentDidMount(){
     this.getFlashcards();
-    this.nextCard();
-    // this.passSpanish();
   }
 
   nextCard(){
-    // while (true) {
-    //   let index = Math.floor(Math.random() * flashcards.length);
-    //   let correct = flashcards[index].numCorrect;
-    //   let seen = flashcards[index].numShown;
-    //   score = Math.max(1, 5-correct) + Math.max(1, 5-seen);
-    //   if (seen == 0) {
-    //     score += 5;
-    //   }
-    //   else {
-    //     score += 5 * ( Math.floor((seen-correct)/seen) );
-    //   }
-    //   let randNum = Math.floor(Math.random() * 16);
-    //   if (randNum <= score) {
-    //     this.currCard = flashcards[index].engText;
-    //     break;
-    //   }
-    // }
-    
+    let eng = '';
+    let es = '';
+    while (true) {
+      let index = Math.floor(Math.random() * this.flashcards.length);
+      let correct = this.flashcards[index].numCorrect;
+      let seen = this.flashcards[index].numShown;
+      let score = Math.max(1, 5-correct) + Math.max(1, 5-seen);
+      if (seen == 0) {
+        score += 5;
+      }
+      else {
+        score += 5 * ( Math.floor((seen-correct)/seen) );
+      }
+      let randNum = Math.floor(Math.random() * 16);
+      if (randNum <= score) {
+        eng = this.flashcards[index].engText;
+        es = this.flashcards[index].transText;
+        break;
+      }
+    }
+    this.setState({english: eng, spanish: es});
   }
 
-  // passSpanish(){
-  //   // this.currCard is undefined
-  //   console.log("4" + this.currCard);
+  getFlashcards() {
+    let url = "/flashcards";
+    let xhr = createCORSRequest('GET', url);
 
-  // // componentDidMount(){
-  // //   this.getFlashcards();
-  //}
-
-   getFlashcards() {
-      let url = "/flashcards";
-      let xhr = createCORSRequest('GET', url);
-  
-      if (!xhr) {
-          alert('CORS not supported');
-          return;
-      }
-  
-      xhr.onload = function() {
-          let responseStr = xhr.responseText;
-          flashcards = JSON.parse(responseStr);
-          console.log(flashcards);
-          // let index=0;    
-          // for( index ; index < 4; index++){
-          //   flashcards[index].engText;
-          //   flashcards[index].transText;
-          // }
-      }
-  
-      xhr.onerror = function() {
-          alert('There was an error in making the request');
-      }
-  
-      xhr.send();
-
+    if (!xhr) {
+      alert('CORS not supported');
+      return;
     }
+
+    xhr.onload = function () {
+      let responseStr = xhr.responseText;
+      this.flashcards = JSON.parse(responseStr);
+      console.log(this.flashcards);
+      this.nextCard();
+    }.bind(this)
+
+    xhr.onerror = function () {
+      alert('There was an error in making the request');
+    }.bind(this)
+
+    xhr.send();
+
+  }
 
 }
 
@@ -170,23 +158,6 @@ function SmallCard(props){
           {props.children}
           </div> ) 
 }  
-// class SmallCard extends React.Component{
-//   constructor(props){
-//     super(props);
-//     this.nextCard = this.nextCard.bind(this);
-    
-//   }
-//    render(){
-//       return <div className="SmallCard">
-//                 {this.currCard}
-//           </div>  
-//         }
-  
-
-
-
-//   }
-
 
 function Txt(props) {
    if (props.phrase == undefined) {
@@ -220,32 +191,23 @@ class MakeFooter extends React.Component {
 }
 
 
-class SaveBtn extends React.Component{
+class NextBtn extends React.Component{
   constructor(props) {
       super(props);
-      // this.saveInput = this.saveInput.bind(this);
       }
 
     render(){ return (
       <div className="SaveBtn">
-       <button className="Save"> Next </button>
+       <button className="Save" onClick={this.props.nextCard}> Next </button>
       </div>
       );
     }
  }
 
-    // go to next flashcard instead
-
-// class 
-
 class CreateCardMain extends React.Component {
 
   constructor(props) {
       super(props);
-      this.state = { translation: "" };
-      // this.getFlashcards = this.getFlashcards.bind(this);
-      // this.nextCard = this.nextCard.bind(this);
-      // this.currCard = this.currCard.bind(this);
       }
 
   render() {return (
@@ -257,73 +219,13 @@ class CreateCardMain extends React.Component {
           <img src="../assets/noun_Refresh_2310283.svg" />
           </div>
       </Card>
-      <SmallCard>
-          <CardTextarea  />
-      </SmallCard>
       </main>
-      <SaveBtn />
       <MakeFooter />
       </React.Fragment>
       );
-    } // end of render function   
-    // <textarea id="inputEng" onKeyPress={this.getTranslation} />
-    // onKeyPress function for the textarea element
-    // When the charCode is 13, the user has hit the return key
-  //   checkReturn(event) {
-  //  if (event.charCode == 13) {
-  //     let newPhrase = document.getElementById("inputEng").value;
-  //     this.setState({opinion: newPhrase} );
-  //     }
-  //  }
-
-
-  // nextCard(){
-  //   while (true) {
-  //     let index = Math.floor(Math.random() * flashcards.length);
-  //     let correct = flashcards[index].numCorrect;
-  //     let seen = flashcards[index].numShown;
-  //     score = Math.max(1, 5-correct) + Math.max(1, 5-seen);
-  //     if (seen == 0) {
-  //       score += 5;
-  //     }
-  //     else {
-  //       score += 5 * ( Math.floor((seen-correct)/seen) );
-  //     }
-  //     let randNum = Math.floor(Math.random() * 16);
-  //     if (randNum <= score) {
-  //       this.currCard = flashcards[index].engText;
-  //       break;
-  //     }
-  //   }
-  // }
-
+    }
 
 } // end of class
-
-
-
-// function getFlashcards() {
-//       let url = "/flashcards";
-//       let xhr = createCORSRequest('GET', url);
-  
-//       if (!xhr) {
-//           alert('CORS not supported');
-//           return;
-//       }
-  
-//       xhr.onload = function() {
-//           flashcards = xhr.responseText;
-//           console.log(flashcards);
-//       }
-  
-//       xhr.onerror = function() {
-//           alert('There was an error in making the request');
-//       }
-  
-//       xhr.send();
-// }
-
-// getFlashcards();
 
 ReactDOM.render(
     <CreateCardMain />,
