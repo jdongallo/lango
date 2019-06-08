@@ -37,19 +37,20 @@ class CardTextarea extends React.Component {
 class Card extends React.Component {
   constructor(props){
     super(props);
-    this.state = {english: "", spanish: ""};
+    this.state = {english: "", spanish: "", front_visible: true};
     this.getFlashcards = this.getFlashcards.bind(this);
     this.nextCard = this.nextCard.bind(this);
+    this.animation = this.animation.bind(this);
     this.flashcards = [];
   }
   render() {
     return(
       <React.Fragment>
         <div  id="flipper" className='card-container textCard'>
-          <div className='card-body'>
+          <div className='card-body' onClick={this.animation}>
             <CardBack text={this.state.english} />
 
-            <CardFront text={this.state.spanish} />  
+            <CardFront text={this.state.spanish}/>  
           </div>
         </div>
         <SmallCard>
@@ -112,23 +113,30 @@ class Card extends React.Component {
 
   }
 
+  animation() {
+    let card = document.getElementsByClassName('card-body');
+    if (this.state.front_visible == true) {
+      card[0].classList.add('cardFlip');
+      this.setState({front_visible : false});
+    }
+    else {
+      card[0].classList.remove('cardFlip');
+      this.setState({front_visible: true});
+    }
+  }
+
 }
 
 // React component for the front side of the card
 class CardFront extends React.Component {
-  constructor(props){
-    super(props);
-
-  }
-
   render(props) {
     return(
-      <div className='card-side side-front'>
+      <div className='card-side'>
          <div className='card-side-container'>
-             <div className="icon">
-          <img  src="../assets/noun_Refresh_2310283.svg" />
+          <div className="icon">
+            <img  src="../assets/noun_Refresh_2310283.svg" />
           </div> 
-            <h2 id='trans'>{this.props.text}</h2>
+          <h2 id='trans'>{this.props.text}</h2>
 
         </div>
       </div>

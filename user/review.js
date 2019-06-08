@@ -74,9 +74,10 @@ var Card = function (_React$Component3) {
 
     var _this3 = _possibleConstructorReturn(this, (Card.__proto__ || Object.getPrototypeOf(Card)).call(this, props));
 
-    _this3.state = { english: "", spanish: "" };
+    _this3.state = { english: "", spanish: "", front_visible: true };
     _this3.getFlashcards = _this3.getFlashcards.bind(_this3);
     _this3.nextCard = _this3.nextCard.bind(_this3);
+    _this3.animation = _this3.animation.bind(_this3);
     _this3.flashcards = [];
     return _this3;
   }
@@ -92,7 +93,7 @@ var Card = function (_React$Component3) {
           { id: 'flipper', className: 'card-container textCard' },
           React.createElement(
             'div',
-            { className: 'card-body' },
+            { className: 'card-body', onClick: this.animation },
             React.createElement(CardBack, { text: this.state.english }),
             React.createElement(CardFront, { text: this.state.spanish })
           )
@@ -158,6 +159,18 @@ var Card = function (_React$Component3) {
 
       xhr.send();
     }
+  }, {
+    key: 'animation',
+    value: function animation() {
+      var card = document.getElementsByClassName('card-body');
+      if (this.state.front_visible == true) {
+        card[0].classList.add('cardFlip');
+        this.setState({ front_visible: false });
+      } else {
+        card[0].classList.remove('cardFlip');
+        this.setState({ front_visible: true });
+      }
+    }
   }]);
 
   return Card;
@@ -169,10 +182,10 @@ var Card = function (_React$Component3) {
 var CardFront = function (_React$Component4) {
   _inherits(CardFront, _React$Component4);
 
-  function CardFront(props) {
+  function CardFront() {
     _classCallCheck(this, CardFront);
 
-    return _possibleConstructorReturn(this, (CardFront.__proto__ || Object.getPrototypeOf(CardFront)).call(this, props));
+    return _possibleConstructorReturn(this, (CardFront.__proto__ || Object.getPrototypeOf(CardFront)).apply(this, arguments));
   }
 
   _createClass(CardFront, [{
@@ -180,7 +193,7 @@ var CardFront = function (_React$Component4) {
     value: function render(props) {
       return React.createElement(
         'div',
-        { className: 'card-side side-front' },
+        { className: 'card-side' },
         React.createElement(
           'div',
           { className: 'card-side-container' },

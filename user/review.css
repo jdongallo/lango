@@ -29,12 +29,12 @@
 }
 
 /*- Flipping the card -*/
-.card-container:active .card-body {
+.cardFlip {
   -webkit-transform: rotateY(180deg);
           transform: rotateY(180deg);
 }
 
-.card-container:active > .card-body > .side-front {
+.hideFront {
   opacity: 0;
   visibility: hidden;
   transition: opacity 1s ease-in, visibility .75s linear;
