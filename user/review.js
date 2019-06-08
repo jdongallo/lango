@@ -12,7 +12,7 @@ var object = undefined;
 var input = document.getElementById("word");
 var engText = ""; // Used in saveInput function 
 var transText = ""; // to store in database
-var flashcards = [];
+var flashcards = undefined;
 
 function createCORSRequest(method, url) {
   var xhr = new XMLHttpRequest();
@@ -78,7 +78,14 @@ var Card = function (_React$Component3) {
   function Card(props) {
     _classCallCheck(this, Card);
 
-    return _possibleConstructorReturn(this, (Card.__proto__ || Object.getPrototypeOf(Card)).call(this, props));
+    var _this3 = _possibleConstructorReturn(this, (Card.__proto__ || Object.getPrototypeOf(Card)).call(this, props));
+
+    _this3.state = { SpanishT: "" };
+    _this3.getFlashcards = _this3.getFlashcards.bind(_this3);
+    // this.passSpanish = this.passSpanish.bind(this);
+    // this.currCard = undefined;
+    _this3.nextCard = _this3.nextCard.bind(_this3);
+    return _this3;
   }
 
   _createClass(Card, [{
@@ -91,31 +98,74 @@ var Card = function (_React$Component3) {
           "div",
           { className: "card-body" },
           React.createElement(CardBack, { text: "Correct english translation" }),
-          React.createElement(CardFront, { text: "Spanish stored flashcard" })
+          React.createElement(CardFront, { text: flashcards[0].engText })
         )
       );
     }
-
-    // nextCard(){
-    //   while (true) {
-    //     let index = Math.floor(Math.random() * flashcards.length);
-    //     let correct = flashcards[index].numCorrect;
-    //     let seen = flashcards[index].numShown;
-    //     score = Math.max(1, 5-correct) + Math.max(1, 5-seen);
-    //     if (seen == 0) {
-    //       score += 5;
-    //     }
-    //     else {
-    //       score += 5 * ( Math.floor((seen-correct)/seen) );
-    //     }
-    //     let randNum = Math.floor(Math.random() * 16);
-    //     if (randNum <= score) {
-    //       this.currCard = flashcards[index].engText;
-    //       break;
-    //     }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.getFlashcards();
+      this.nextCard();
+      // this.passSpanish();
+    }
+  }, {
+    key: "nextCard",
+    value: function nextCard() {}
+    // while (true) {
+    //   let index = Math.floor(Math.random() * flashcards.length);
+    //   let correct = flashcards[index].numCorrect;
+    //   let seen = flashcards[index].numShown;
+    //   score = Math.max(1, 5-correct) + Math.max(1, 5-seen);
+    //   if (seen == 0) {
+    //     score += 5;
+    //   }
+    //   else {
+    //     score += 5 * ( Math.floor((seen-correct)/seen) );
+    //   }
+    //   let randNum = Math.floor(Math.random() * 16);
+    //   if (randNum <= score) {
+    //     this.currCard = flashcards[index].engText;
+    //     break;
     //   }
     // }
 
+    // passSpanish(){
+    //   // this.currCard is undefined
+    //   console.log("4" + this.currCard);
+
+    // // componentDidMount(){
+    // //   this.getFlashcards();
+    //}
+
+  }, {
+    key: "getFlashcards",
+    value: function getFlashcards() {
+      var url = "/flashcards";
+      var xhr = createCORSRequest('GET', url);
+
+      if (!xhr) {
+        alert('CORS not supported');
+        return;
+      }
+
+      xhr.onload = function () {
+        var responseStr = xhr.responseText;
+        flashcards = JSON.parse(responseStr);
+        console.log(flashcards);
+        // let index=0;    
+        // for( index ; index < 4; index++){
+        //   flashcards[index].engText;
+        //   flashcards[index].transText;
+        // }
+      };
+
+      xhr.onerror = function () {
+        alert('There was an error in making the request');
+      };
+
+      xhr.send();
+    }
   }]);
 
   return Card;
@@ -325,6 +375,7 @@ var CreateCardMain = function (_React$Component8) {
     var _this8 = _possibleConstructorReturn(this, (CreateCardMain.__proto__ || Object.getPrototypeOf(CreateCardMain)).call(this, props));
 
     _this8.state = { translation: "" };
+    // this.getFlashcards = this.getFlashcards.bind(this);
     // this.nextCard = this.nextCard.bind(this);
     // this.currCard = this.currCard.bind(this);
     return _this8;
@@ -390,33 +441,34 @@ var CreateCardMain = function (_React$Component8) {
     //   }
     // }
 
+
   }]);
 
   return CreateCardMain;
 }(React.Component); // end of class
 
 
-function getFlashcards() {
-  var url = "/flashcards";
-  var xhr = createCORSRequest('GET', url);
+// function getFlashcards() {
+//       let url = "/flashcards";
+//       let xhr = createCORSRequest('GET', url);
 
-  if (!xhr) {
-    alert('CORS not supported');
-    return;
-  }
+//       if (!xhr) {
+//           alert('CORS not supported');
+//           return;
+//       }
 
-  xhr.onload = function () {
-    flashcards = xhr.responseText;
-    console.log(flashcards);
-  };
+//       xhr.onload = function() {
+//           flashcards = xhr.responseText;
+//           console.log(flashcards);
+//       }
 
-  xhr.onerror = function () {
-    alert('There was an error in making the request');
-  };
+//       xhr.onerror = function() {
+//           alert('There was an error in making the request');
+//       }
 
-  xhr.send();
-}
+//       xhr.send();
+// }
 
-getFlashcards();
+// getFlashcards();
 
 ReactDOM.render(React.createElement(CreateCardMain, null), document.getElementById('root'));

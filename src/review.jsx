@@ -4,7 +4,7 @@ let object = undefined;
 const input = document.getElementById("word");
 let engText = ""; // Used in saveInput function 
 let transText = ""; // to store in database
-let flashcards = [];
+let flashcards = undefined;
 
 function createCORSRequest(method, url) {
     let xhr = new XMLHttpRequest();
@@ -43,6 +43,11 @@ class CardTextarea extends React.Component {
 class Card extends React.Component {
   constructor(props){
     super(props);
+    this.state = {SpanishT: ""};
+    this.getFlashcards = this.getFlashcards.bind(this);
+    // this.passSpanish = this.passSpanish.bind(this);
+    // this.currCard = undefined;
+    this.nextCard = this.nextCard.bind(this);
   }
   render() {
     return(
@@ -50,31 +55,74 @@ class Card extends React.Component {
         <div className='card-body'>
           <CardBack text="Correct english translation" />
 
-          <CardFront text="Spanish stored flashcard" />  
+          <CardFront text={flashcards[0].engText} />  
         </div>
       </div>
     )
+  }  
+
+  componentDidMount(){
+    this.getFlashcards();
+    this.nextCard();
+    // this.passSpanish();
   }
 
-  // nextCard(){
-  //   while (true) {
-  //     let index = Math.floor(Math.random() * flashcards.length);
-  //     let correct = flashcards[index].numCorrect;
-  //     let seen = flashcards[index].numShown;
-  //     score = Math.max(1, 5-correct) + Math.max(1, 5-seen);
-  //     if (seen == 0) {
-  //       score += 5;
-  //     }
-  //     else {
-  //       score += 5 * ( Math.floor((seen-correct)/seen) );
-  //     }
-  //     let randNum = Math.floor(Math.random() * 16);
-  //     if (randNum <= score) {
-  //       this.currCard = flashcards[index].engText;
-  //       break;
-  //     }
-  //   }
-  // }
+  nextCard(){
+    // while (true) {
+    //   let index = Math.floor(Math.random() * flashcards.length);
+    //   let correct = flashcards[index].numCorrect;
+    //   let seen = flashcards[index].numShown;
+    //   score = Math.max(1, 5-correct) + Math.max(1, 5-seen);
+    //   if (seen == 0) {
+    //     score += 5;
+    //   }
+    //   else {
+    //     score += 5 * ( Math.floor((seen-correct)/seen) );
+    //   }
+    //   let randNum = Math.floor(Math.random() * 16);
+    //   if (randNum <= score) {
+    //     this.currCard = flashcards[index].engText;
+    //     break;
+    //   }
+    // }
+    
+  }
+
+  // passSpanish(){
+  //   // this.currCard is undefined
+  //   console.log("4" + this.currCard);
+
+  // // componentDidMount(){
+  // //   this.getFlashcards();
+  //}
+
+   getFlashcards() {
+      let url = "/flashcards";
+      let xhr = createCORSRequest('GET', url);
+  
+      if (!xhr) {
+          alert('CORS not supported');
+          return;
+      }
+  
+      xhr.onload = function() {
+          let responseStr = xhr.responseText;
+          flashcards = JSON.parse(responseStr);
+          console.log(flashcards);
+          // let index=0;    
+          // for( index ; index < 4; index++){
+          //   flashcards[index].engText;
+          //   flashcards[index].transText;
+          // }
+      }
+  
+      xhr.onerror = function() {
+          alert('There was an error in making the request');
+      }
+  
+      xhr.send();
+
+    }
 
 }
 
@@ -195,6 +243,7 @@ class CreateCardMain extends React.Component {
   constructor(props) {
       super(props);
       this.state = { translation: "" };
+      // this.getFlashcards = this.getFlashcards.bind(this);
       // this.nextCard = this.nextCard.bind(this);
       // this.currCard = this.currCard.bind(this);
       }
@@ -248,32 +297,33 @@ class CreateCardMain extends React.Component {
   //   }
   // }
 
+
 } // end of class
 
 
 
-function getFlashcards() {
-      let url = "/flashcards";
-      let xhr = createCORSRequest('GET', url);
+// function getFlashcards() {
+//       let url = "/flashcards";
+//       let xhr = createCORSRequest('GET', url);
   
-      if (!xhr) {
-          alert('CORS not supported');
-          return;
-      }
+//       if (!xhr) {
+//           alert('CORS not supported');
+//           return;
+//       }
   
-      xhr.onload = function() {
-          flashcards = xhr.responseText;
-          console.log(flashcards);
-      }
+//       xhr.onload = function() {
+//           flashcards = xhr.responseText;
+//           console.log(flashcards);
+//       }
   
-      xhr.onerror = function() {
-          alert('There was an error in making the request');
-      }
+//       xhr.onerror = function() {
+//           alert('There was an error in making the request');
+//       }
   
-      xhr.send();
-}
+//       xhr.send();
+// }
 
-getFlashcards();
+// getFlashcards();
 
 ReactDOM.render(
     <CreateCardMain />,
