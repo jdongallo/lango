@@ -40,14 +40,15 @@ class Card extends React.Component {
     this.state = {english: "", spanish: "", front_visible: true};
     this.getFlashcards = this.getFlashcards.bind(this);
     this.nextCard = this.nextCard.bind(this);
-    this.animation = this.animation.bind(this);
+    this.nextCardHelper = this.nextCardHelper.bind(this);
+    this.flipAnimation = this.flipAnimation.bind(this);
     this.flashcards = [];
   }
   render() {
     return(
       <React.Fragment>
         <div  id="flipper" className='card-container textCard'>
-          <div className='card-body' onClick={this.animation}>
+          <div className='card-body' onClick={this.flipAnimation}>
             <CardBack text={this.state.english} />
 
             <CardFront text={this.state.spanish}/>  
@@ -66,6 +67,16 @@ class Card extends React.Component {
   }
 
   nextCard(){
+    if (!this.state.front_visible) {
+      this.flipAnimation();
+      setTimeout(this.nextCardHelper, 500);
+    }
+    else {
+      this.nextCardHelper();
+    }
+  }
+
+  nextCardHelper() {
     let eng = '';
     let es = '';
     while (true) {
@@ -113,7 +124,7 @@ class Card extends React.Component {
 
   }
 
-  animation() {
+  flipAnimation() {
     let card = document.getElementsByClassName('card-body');
     if (this.state.front_visible == true) {
       card[0].classList.add('cardFlip');

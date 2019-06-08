@@ -77,7 +77,8 @@ var Card = function (_React$Component3) {
     _this3.state = { english: "", spanish: "", front_visible: true };
     _this3.getFlashcards = _this3.getFlashcards.bind(_this3);
     _this3.nextCard = _this3.nextCard.bind(_this3);
-    _this3.animation = _this3.animation.bind(_this3);
+    _this3.nextCardHelper = _this3.nextCardHelper.bind(_this3);
+    _this3.flipAnimation = _this3.flipAnimation.bind(_this3);
     _this3.flashcards = [];
     return _this3;
   }
@@ -93,7 +94,7 @@ var Card = function (_React$Component3) {
           { id: 'flipper', className: 'card-container textCard' },
           React.createElement(
             'div',
-            { className: 'card-body', onClick: this.animation },
+            { className: 'card-body', onClick: this.flipAnimation },
             React.createElement(CardBack, { text: this.state.english }),
             React.createElement(CardFront, { text: this.state.spanish })
           )
@@ -114,6 +115,16 @@ var Card = function (_React$Component3) {
   }, {
     key: 'nextCard',
     value: function nextCard() {
+      if (!this.state.front_visible) {
+        this.flipAnimation();
+        setTimeout(this.nextCardHelper, 500);
+      } else {
+        this.nextCardHelper();
+      }
+    }
+  }, {
+    key: 'nextCardHelper',
+    value: function nextCardHelper() {
       var eng = '';
       var es = '';
       while (true) {
@@ -160,8 +171,8 @@ var Card = function (_React$Component3) {
       xhr.send();
     }
   }, {
-    key: 'animation',
-    value: function animation() {
+    key: 'flipAnimation',
+    value: function flipAnimation() {
       var card = document.getElementsByClassName('card-body');
       if (this.state.front_visible == true) {
         card[0].classList.add('cardFlip');
