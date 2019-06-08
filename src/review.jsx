@@ -4,7 +4,7 @@ let object = undefined;
 const input = document.getElementById("word");
 let engText = ""; // Used in saveInput function 
 let transText = ""; // to store in database
-let flashcards = undefined;
+let flashcards = [];
 
 function createCORSRequest(method, url) {
     let xhr = new XMLHttpRequest();
@@ -55,7 +55,7 @@ class Card extends React.Component {
         <div className='card-body'>
           <CardBack text="Correct english translation" />
 
-          <CardFront text={flashcards[0].engText} />  
+          <CardFront text="inprogress" />  
         </div>
       </div>
     )

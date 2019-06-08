@@ -12,7 +12,7 @@ var object = undefined;
 var input = document.getElementById("word");
 var engText = ""; // Used in saveInput function 
 var transText = ""; // to store in database
-var flashcards = undefined;
+var flashcards = [];
 
 function createCORSRequest(method, url) {
   var xhr = new XMLHttpRequest();
@@ -98,7 +98,7 @@ var Card = function (_React$Component3) {
           "div",
           { className: "card-body" },
           React.createElement(CardBack, { text: "Correct english translation" }),
-          React.createElement(CardFront, { text: flashcards[0].engText })
+          React.createElement(CardFront, { text: "inprogress" })
         )
       );
     }
