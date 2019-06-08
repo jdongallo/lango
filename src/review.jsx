@@ -179,15 +179,41 @@ function MakeHeader(){
 class MakeFooter extends React.Component {
   constructor(props){
     super(props);
-
+    this.state = {name: ""};
+    this.getName = this.getName.bind(this);
   }
 
   render(){return(
     <footer>
-      <span> username </span> 
+      <Txt phrase = {this.state.name}/>
      </footer> 
     );
     }
+
+  componentDidMount(){
+    this.getName();
+  }
+
+  getName(){
+    let url = "/name";
+    let xhr = createCORSRequest('GET', url);
+
+    if (!xhr) {
+      alert('CORS not supported');
+      return;
+    }
+
+    xhr.onload = function () {
+      let responseStr = xhr.responseText;
+      this.setState({name: responseStr});
+    }.bind(this)
+
+    xhr.onerror = function () {
+      alert('There was an error in making the request');
+    }.bind(this)
+
+    xhr.send();
+  }
 }
 
 

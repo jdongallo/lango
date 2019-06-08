@@ -73,28 +73,70 @@ var MakeHeader = function (_React$Component) {
     return MakeHeader;
 }(React.Component);
 
-function MakeFooter(props) {
-    return React.createElement(
-        "footer",
-        null,
-        React.createElement(
-            "span",
-            null,
-            " username "
-        )
-    );
-}
+var MakeFooter = function (_React$Component2) {
+    _inherits(MakeFooter, _React$Component2);
 
-var SaveBtn = function (_React$Component2) {
-    _inherits(SaveBtn, _React$Component2);
+    function MakeFooter(props) {
+        _classCallCheck(this, MakeFooter);
+
+        var _this2 = _possibleConstructorReturn(this, (MakeFooter.__proto__ || Object.getPrototypeOf(MakeFooter)).call(this, props));
+
+        _this2.state = { name: "" };
+        _this2.getName = _this2.getName.bind(_this2);
+        return _this2;
+    }
+
+    _createClass(MakeFooter, [{
+        key: "render",
+        value: function render() {
+            return React.createElement(
+                "footer",
+                null,
+                React.createElement(Txt, { phrase: this.state.name })
+            );
+        }
+    }, {
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            this.getName();
+        }
+    }, {
+        key: "getName",
+        value: function getName() {
+            var url = "/name";
+            var xhr = createCORSRequest('GET', url);
+
+            if (!xhr) {
+                alert('CORS not supported');
+                return;
+            }
+
+            xhr.onload = function () {
+                var responseStr = xhr.responseText;
+                this.setState({ name: responseStr });
+            }.bind(this);
+
+            xhr.onerror = function () {
+                alert('There was an error in making the request');
+            }.bind(this);
+
+            xhr.send();
+        }
+    }]);
+
+    return MakeFooter;
+}(React.Component);
+
+var SaveBtn = function (_React$Component3) {
+    _inherits(SaveBtn, _React$Component3);
 
     function SaveBtn(props) {
         _classCallCheck(this, SaveBtn);
 
-        var _this2 = _possibleConstructorReturn(this, (SaveBtn.__proto__ || Object.getPrototypeOf(SaveBtn)).call(this, props));
+        var _this3 = _possibleConstructorReturn(this, (SaveBtn.__proto__ || Object.getPrototypeOf(SaveBtn)).call(this, props));
 
-        _this2.saveInput = _this2.saveInput.bind(_this2);
-        return _this2;
+        _this3.saveInput = _this3.saveInput.bind(_this3);
+        return _this3;
     }
 
     _createClass(SaveBtn, [{
@@ -137,18 +179,18 @@ var SaveBtn = function (_React$Component2) {
     return SaveBtn;
 }(React.Component);
 
-var CreateCardMain = function (_React$Component3) {
-    _inherits(CreateCardMain, _React$Component3);
+var CreateCardMain = function (_React$Component4) {
+    _inherits(CreateCardMain, _React$Component4);
 
     function CreateCardMain(props) {
         _classCallCheck(this, CreateCardMain);
 
-        var _this3 = _possibleConstructorReturn(this, (CreateCardMain.__proto__ || Object.getPrototypeOf(CreateCardMain)).call(this, props));
+        var _this4 = _possibleConstructorReturn(this, (CreateCardMain.__proto__ || Object.getPrototypeOf(CreateCardMain)).call(this, props));
 
-        _this3.state = { translation: "" };
+        _this4.state = { translation: "" };
 
-        _this3.getTranslation = _this3.getTranslation.bind(_this3);
-        return _this3;
+        _this4.getTranslation = _this4.getTranslation.bind(_this4);
+        return _this4;
     }
 
     _createClass(CreateCardMain, [{

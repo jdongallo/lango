@@ -290,7 +290,11 @@ var MakeFooter = function (_React$Component6) {
   function MakeFooter(props) {
     _classCallCheck(this, MakeFooter);
 
-    return _possibleConstructorReturn(this, (MakeFooter.__proto__ || Object.getPrototypeOf(MakeFooter)).call(this, props));
+    var _this6 = _possibleConstructorReturn(this, (MakeFooter.__proto__ || Object.getPrototypeOf(MakeFooter)).call(this, props));
+
+    _this6.state = { name: "" };
+    _this6.getName = _this6.getName.bind(_this6);
+    return _this6;
   }
 
   _createClass(MakeFooter, [{
@@ -299,12 +303,35 @@ var MakeFooter = function (_React$Component6) {
       return React.createElement(
         'footer',
         null,
-        React.createElement(
-          'span',
-          null,
-          ' username '
-        )
+        React.createElement(Txt, { phrase: this.state.name })
       );
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.getName();
+    }
+  }, {
+    key: 'getName',
+    value: function getName() {
+      var url = "/name";
+      var xhr = createCORSRequest('GET', url);
+
+      if (!xhr) {
+        alert('CORS not supported');
+        return;
+      }
+
+      xhr.onload = function () {
+        var responseStr = xhr.responseText;
+        this.setState({ name: responseStr });
+      }.bind(this);
+
+      xhr.onerror = function () {
+        alert('There was an error in making the request');
+      }.bind(this);
+
+      xhr.send();
     }
   }]);
 
