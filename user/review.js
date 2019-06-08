@@ -55,7 +55,7 @@ var CardTextarea = function (_React$Component2) {
       return React.createElement(
         'fieldset',
         null,
-        React.createElement('textarea', { name: this.props.name, id: this.props.id, placeholder: this.props.placeholder, required: true })
+        React.createElement('textarea', { name: this.props.name, id: this.props.id, onKeyPress: this.props.keyFunction, required: true })
       );
     }
   }]);
@@ -77,8 +77,9 @@ var Card = function (_React$Component3) {
     _this3.state = { english: "", spanish: "", front_visible: true };
     _this3.getFlashcards = _this3.getFlashcards.bind(_this3);
     _this3.nextCard = _this3.nextCard.bind(_this3);
-    _this3.nextCardHelper = _this3.nextCardHelper.bind(_this3);
+    _this3.getNextCard = _this3.getNextCard.bind(_this3);
     _this3.flipAnimation = _this3.flipAnimation.bind(_this3);
+    _this3.processInput = _this3.processInput.bind(_this3);
     _this3.flashcards = [];
     return _this3;
   }
@@ -102,7 +103,7 @@ var Card = function (_React$Component3) {
         React.createElement(
           SmallCard,
           null,
-          React.createElement(CardTextarea, null)
+          React.createElement(CardTextarea, { id: 'input', keyFunction: this.processInput })
         ),
         React.createElement(NextBtn, { nextCard: this.nextCard })
       );
@@ -117,14 +118,14 @@ var Card = function (_React$Component3) {
     value: function nextCard() {
       if (!this.state.front_visible) {
         this.flipAnimation();
-        setTimeout(this.nextCardHelper, 500);
+        setTimeout(this.getNextCard, 500);
       } else {
-        this.nextCardHelper();
+        this.getNextCard();
       }
     }
   }, {
-    key: 'nextCardHelper',
-    value: function nextCardHelper() {
+    key: 'getNextCard',
+    value: function getNextCard() {
       var eng = '';
       var es = '';
       while (true) {
@@ -180,6 +181,27 @@ var Card = function (_React$Component3) {
       } else {
         card[0].classList.remove('cardFlip');
         this.setState({ front_visible: true });
+        setTimeout(this.getNextCard, 500);
+      }
+    }
+  }, {
+    key: 'processInput',
+    value: function processInput(event) {
+      if (event.charCode == 13 && this.state.front_visible == true) {
+        var userAnswer = document.getElementById('input').value;
+        var answer = document.getElementById('answer');
+        var correctBox = document.getElementsByClassName('correctBox');
+        console.log(this.state.english, userAnswer);
+        if (this.state.english == userAnswer) {
+          console.log("Correct answer");
+          correctBox[0].classList.remove('hidden');
+          answer.classList.add('hidden');
+        } else {
+          console.log("Incorrect answer");
+          correctBox[0].classList.add('hidden');
+          answer.classList.remove('hidden');
+        }
+        this.flipAnimation();
       }
     }
   }]);
@@ -252,13 +274,13 @@ var CardBack = function (_React$Component5) {
             { className: 'correctBox' },
             React.createElement(
               'span',
-              { className: 'correctText' },
+              { id: 'congrats' },
               ' CORRECT! '
             )
           ),
           React.createElement(
             'h2',
-            { id: 'congrats' },
+            { id: 'answer' },
             this.props.text
           )
         )

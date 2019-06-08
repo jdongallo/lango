@@ -26,7 +26,7 @@ class CardTextarea extends React.Component {
   render() {
     return(
       <fieldset>
-        <textarea name={this.props.name} id={this.props.id} placeholder={this.props.placeholder} required ></textarea>
+        <textarea name={this.props.name} id={this.props.id} onKeyPress={this.props.keyFunction} required ></textarea>
       </fieldset>
     )
   }
@@ -40,8 +40,9 @@ class Card extends React.Component {
     this.state = {english: "", spanish: "", front_visible: true};
     this.getFlashcards = this.getFlashcards.bind(this);
     this.nextCard = this.nextCard.bind(this);
-    this.nextCardHelper = this.nextCardHelper.bind(this);
+    this.getNextCard = this.getNextCard.bind(this);
     this.flipAnimation = this.flipAnimation.bind(this);
+    this.processInput = this.processInput.bind(this);
     this.flashcards = [];
   }
   render() {
@@ -55,7 +56,7 @@ class Card extends React.Component {
           </div>
         </div>
         <SmallCard>
-        <CardTextarea  />
+        <CardTextarea id="input" keyFunction={this.processInput}/>
         </SmallCard>
         <NextBtn nextCard = {this.nextCard}/>
       </React.Fragment>
@@ -69,14 +70,14 @@ class Card extends React.Component {
   nextCard(){
     if (!this.state.front_visible) {
       this.flipAnimation();
-      setTimeout(this.nextCardHelper, 500);
+      setTimeout(this.getNextCard, 500);
     }
     else {
-      this.nextCardHelper();
+      this.getNextCard();
     }
   }
 
-  nextCardHelper() {
+  getNextCard() {
     let eng = '';
     let es = '';
     while (true) {
@@ -133,6 +134,27 @@ class Card extends React.Component {
     else {
       card[0].classList.remove('cardFlip');
       this.setState({front_visible: true});
+      setTimeout(this.getNextCard, 500);
+    }
+  }
+
+  processInput(event) {
+    if (event.charCode == 13 && this.state.front_visible == true) {
+      let userAnswer = document.getElementById('input').value;
+      let answer = document.getElementById('answer');
+      let correctBox = document.getElementsByClassName('correctBox');
+      console.log(this.state.english, userAnswer);
+      if (this.state.english == userAnswer) {
+        console.log("Correct answer");
+        correctBox[0].classList.remove('hidden');
+        answer.classList.add('hidden');
+      }
+      else {
+        console.log("Incorrect answer");
+        correctBox[0].classList.add('hidden');
+        answer.classList.remove('hidden');
+      }
+      this.flipAnimation();
     }
   }
 
@@ -162,9 +184,9 @@ class CardBack extends React.Component {
       <div className='card-side side-back'>
          <div className='card-side-container'>
           <div className="correctBox">
-            <span className="correctText"> CORRECT! </span>
+            <span id="congrats"> CORRECT! </span>
           </div>
-              <h2 id='congrats'>{this.props.text}</h2>
+              <h2 id='answer'>{this.props.text}</h2>
         </div>
       </div>
     )

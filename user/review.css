@@ -191,7 +191,7 @@ img{
     
 }
 
-.correctText{
+#congrats{
     margin-top: 10px;
     color: #008000;
 }
@@ -252,6 +252,9 @@ textarea {
     min-height: 11vh;
 }
 
+.hidden {
+    display: none;
+}
 
 @media only screen and (max-width: 900px) {
   .Save{
