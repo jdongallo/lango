@@ -196,26 +196,43 @@ function translate(str, res) {
       }
   }
   
-  // TO DO: add userID field for insertion
 function storeFlashcard(req, res, next) {
     let qObj = req.query;
     console.log(qObj);
-    if (qObj.english != undefined && qObj.spanish != undefined) {
-      const insert_query = `INSERT INTO flashcards 
-        (engText, transText, numShown, numCorrect, userID) 
-        VALUES(@0, @1, 0, 0, @2)`;
-      db.run(insert_query, qObj.english, qObj.spanish, req.user.googleID, (err) => {
-          if(err) {
-              console.log("Error inserting data", err);
-          } else {
-              console.log("Data inserted");
-          }
-      })
-      res.send('Flashcard saved');
-    }
-    else {
-      next();
-    }
+
+    // Search database for a duplicate flashcard
+    const search_query = `SELECT * FROM flashcards WHERE engText = @0`;
+    db.get(search_query, qObj.english, (err, row) => {
+        if(err) {
+            console.log("Error:",err);
+        }
+        // If flashcard doesn't exist in database
+        else if (typeof row == 'undefined') {
+            if (qObj.english != undefined && qObj.spanish != undefined) {
+                const insert_query = `INSERT INTO flashcards 
+                  (engText, transText, numShown, numCorrect, userID) 
+                  VALUES(@0, @1, 0, 0, @2)`;
+                db.run(insert_query, qObj.english, qObj.spanish, req.user.googleID, (err) => {
+                    if(err) {
+                        console.log("Error inserting data", err);
+                    } else {
+                        console.log("Data inserted");
+                    }
+                })
+                res.send('Flashcard saved');
+              }
+              else {
+                next();
+              }
+        }
+        // If flashcard does exist in database
+        else if (typeof row != 'undefined') {
+            res.send('Flashcard not saved: already in database')
+        }
+        else {
+            next();
+        }
+    })
 }
 
 function updateFlashcard(req, res, next) {
@@ -225,7 +242,7 @@ function updateFlashcard(req, res, next) {
         SET numShown = @0, numCorrect = @1
         WHERE idNum = @2`;
     if (qObj.isCorrect == 'true') {
-        db.run(update_query, qObj.shown+1, qObj.correct+1, qObj.id, (err) => {
+        db.run(update_query, Number(qObj.shown)+1, Number(qObj.correct)+1, qObj.id, (err) => {
             if (err) {
                 console.log('Error updating data',err);
             }
@@ -235,7 +252,7 @@ function updateFlashcard(req, res, next) {
         })
     }
     else if (qObj.isCorrect == 'false') {
-        db.run(update_query, qObj.shown+1, qObj.correct, qObj.id, (err) => {
+        db.run(update_query, Number(qObj.shown)+1, Number(qObj.correct), qObj.id, (err) => {
             if (err) {
                 console.log('Error updating data',err);
             }
