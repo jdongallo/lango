@@ -60,14 +60,24 @@ body {
     
     border-radius: 8px;
     font-family: 'Open Sans', sans-serif;
-    font-size: 1.3em;
+    font-size: 1.2em;
     position: absolute;
     left: 3vw;
     top: 4.3vh;
     background-color: #606B9B;
     color: #eeeeee;
-    width: 11vw;
-    height: 4.5vh;
+
+    padding-top: 10px;
+    padding-bottom: 0px;
+    padding-left: 15px;
+
+    text-decoration: none;
+
+    width: 130px;
+    /*padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;*/
+    height: 29px;
 }
 
 main {
@@ -125,7 +135,14 @@ textarea {
     border: none;
     font-size: 25px;
     font-family: 'Helvetica', sans-serif;
+
+    min-width: 31vw;
+    min-height: 48vh;
+
+    max-width: 32vw;
+    max-height: 49vh;
 }
+
 
 
 @media only screen and (max-width: 900px) {
@@ -165,6 +182,22 @@ div.textCard {
 
 }
 
+.cardButton{  
+
+    font-size: 1em;
+
+    padding-top: 11px;
+    padding-bottom: 0px;
+    padding-left: 10px;
+
+    text-decoration: none;
+
+    width: 107px;
+    /*padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;*/
+    height: 29px;
+}
 
 header{
     display: flex;
@@ -172,6 +205,18 @@ header{
     margin-top: 1rem;
     margin-bottom: 5rem;
     background-color: #ffffff;
+}
+
+textarea {
+    border: none;
+    font-size: 25px;
+    font-family: 'Helvetica', sans-serif;
+
+    min-width: 44vw;
+    min-height: 41vw;
+
+    max-width: 48vw;
+    max-height: 42vw;
 }
 
 
@@ -202,13 +247,28 @@ header{
     
     border-radius: 8px;
     font-family: 'Open Sans', sans-serif;
-    font-size: 1.2em;
+    font-size: 0.9em;
     position: absolute;
     left: 3vw;
     top: 4.3vh;
     background-color: #606B9B;
     color: #eeeeee;
+
+    /*font-size: 1em;*/
+
+    padding-top: 11px;
+    padding-bottom: 0px;
+    padding-left: 10px;
+
+    text-decoration: none;
+
+    width: 97px;
+    /*padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;*/
+    height: 27px;
 }
+
 
 
 div.textCard {
@@ -256,6 +316,18 @@ main{
     flex-direction: column;
 }
 
+
+textarea {
+    border: none;
+    font-size: 25px;
+    font-family: 'Helvetica', sans-serif;
+
+    min-width: 75vw;
+    min-height: 25vh;
+
+    max-width: 76vw;
+    max-height: 26vh;
+}
 
 
 }
