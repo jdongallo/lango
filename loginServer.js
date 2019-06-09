@@ -230,7 +230,7 @@ function updateFlashcard(req, res, next) {
                 console.log('Error updating data',err);
             }
             else {
-                console.log('Shown and correct columns incremented');
+                res.send('Shown and correct columns incremented');
             }
         })
     }
@@ -240,7 +240,7 @@ function updateFlashcard(req, res, next) {
                 console.log('Error updating data',err);
             }
             else {
-                console.log('Shown column incremented');
+                res.send('Shown column incremented');
             }
         })
     }

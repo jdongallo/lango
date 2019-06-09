@@ -81,6 +81,7 @@ var Card = function (_React$Component3) {
     _this3.flipAnimation = _this3.flipAnimation.bind(_this3);
     _this3.processInput = _this3.processInput.bind(_this3);
     _this3.flashcards = [];
+    _this3.cardStats = { correct: "", seen: "", cardID: "" };
     return _this3;
   }
 
@@ -113,6 +114,10 @@ var Card = function (_React$Component3) {
     value: function componentDidMount() {
       this.getFlashcards();
     }
+
+    // Gets the next flash card immediately or after 0.5 seconds
+    // depending on which side is visible
+
   }, {
     key: 'nextCard',
     value: function nextCard() {
@@ -123,6 +128,9 @@ var Card = function (_React$Component3) {
         this.getNextCard();
       }
     }
+
+    // Actually gets the next flashcard
+
   }, {
     key: 'getNextCard',
     value: function getNextCard() {
@@ -142,11 +150,18 @@ var Card = function (_React$Component3) {
         if (randNum <= score) {
           eng = this.flashcards[index].engText;
           es = this.flashcards[index].transText;
+          this.cardStats.correct = this.flashcards[index].numCorrect;
+          this.cardStats.seen = this.flashcards[index].numShown;
+          this.cardStats.cardID = this.flashcards[index].idNum;
           break;
         }
       }
       this.setState({ english: eng, spanish: es });
     }
+
+    // Runs when component mounts to send an AJAX request to
+    // get all of the user's current flashcards in the database
+
   }, {
     key: 'getFlashcards',
     value: function getFlashcards() {
@@ -192,16 +207,38 @@ var Card = function (_React$Component3) {
         var answer = document.getElementById('answer');
         var correctBox = document.getElementsByClassName('correctBox');
         console.log(this.state.english, userAnswer);
+        var url = '/update?shown=' + this.cardStats.seen + '&correct=' + this.cardStats.correct + '&id=' + this.cardStats.cardID;
         if (this.state.english == userAnswer) {
           console.log("Correct answer");
           correctBox[0].classList.remove('hidden');
           answer.classList.add('hidden');
+          url = url + "&isCorrect=true";
         } else {
           console.log("Incorrect answer");
           correctBox[0].classList.add('hidden');
           answer.classList.remove('hidden');
+          url = url + "&isCorrect=false";
         }
         this.flipAnimation();
+
+        console.log(url);
+        // Send AJAX request to update database
+        var xhr = createCORSRequest('GET', url);
+
+        if (!xhr) {
+          alert('CORS not supported');
+          return;
+        }
+
+        xhr.onload = function () {
+          console.log(xhr.responseText);
+        }.bind(this);
+
+        xhr.onerror = function () {
+          alert('There was an error in making the request');
+        }.bind(this);
+
+        xhr.send();
       }
     }
   }]);
