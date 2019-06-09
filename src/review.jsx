@@ -198,7 +198,7 @@ class CardFront extends React.Component {
       <div className='card-side'>
          <div className='card-side-container'>
           <div className="icon">
-            <img  src="../assets/noun_Refresh_2310283.svg" />
+            <img  src="noun_Refresh_2310283.svg" />
           </div> 
           <h2 id='trans'>{this.props.text}</h2>
 

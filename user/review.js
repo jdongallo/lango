@@ -270,7 +270,7 @@ var CardFront = function (_React$Component4) {
           React.createElement(
             'div',
             { className: 'icon' },
-            React.createElement('img', { src: '../assets/noun_Refresh_2310283.svg' })
+            React.createElement('img', { src: 'noun_Refresh_2310283.svg' })
           ),
           React.createElement(
             'h2',
