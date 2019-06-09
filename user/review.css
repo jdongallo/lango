@@ -356,6 +356,9 @@ textarea {
     max-height: 19vh;
 }
 
+.correctBox{
+    min-width: 30vw;
+}
 
 }
 /*end tablet*/
@@ -485,6 +488,10 @@ textarea {
 
     max-width: 74vw;
     max-height: 14vh;
+}
+
+.correctBox{
+    min-width: 33vw;
 }
 
 
