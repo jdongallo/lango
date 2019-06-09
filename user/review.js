@@ -82,6 +82,7 @@ var Card = function (_React$Component3) {
     _this3.processInput = _this3.processInput.bind(_this3);
     _this3.flashcards = [];
     _this3.cardStats = { correct: "", seen: "", cardID: "" };
+    _this3.index = 0;
     return _this3;
   }
 
@@ -137,9 +138,9 @@ var Card = function (_React$Component3) {
       var eng = '';
       var es = '';
       while (true) {
-        var index = Math.floor(Math.random() * this.flashcards.length);
-        var correct = this.flashcards[index].numCorrect;
-        var seen = this.flashcards[index].numShown;
+        this.index = Math.floor(Math.random() * this.flashcards.length);
+        var correct = this.flashcards[this.index].numCorrect;
+        var seen = this.flashcards[this.index].numShown;
         var score = Math.max(1, 5 - correct) + Math.max(1, 5 - seen);
         if (seen == 0) {
           score += 5;
@@ -148,11 +149,11 @@ var Card = function (_React$Component3) {
         }
         var randNum = Math.floor(Math.random() * 16);
         if (randNum <= score) {
-          eng = this.flashcards[index].engText;
-          es = this.flashcards[index].transText;
-          this.cardStats.correct = this.flashcards[index].numCorrect;
-          this.cardStats.seen = this.flashcards[index].numShown;
-          this.cardStats.cardID = this.flashcards[index].idNum;
+          eng = this.flashcards[this.index].engText;
+          es = this.flashcards[this.index].transText;
+          this.cardStats.correct = this.flashcards[this.index].numCorrect;
+          this.cardStats.seen = this.flashcards[this.index].numShown;
+          this.cardStats.cardID = this.flashcards[this.index].idNum;
           break;
         }
       }
@@ -206,18 +207,25 @@ var Card = function (_React$Component3) {
         var userAnswer = document.getElementById('input').value;
         var answer = document.getElementById('answer');
         var correctBox = document.getElementsByClassName('correctBox');
-        console.log(this.state.english, userAnswer);
+        console.log(this.state.english, userAnswer, '*');
         var url = '/update?shown=' + this.cardStats.seen + '&correct=' + this.cardStats.correct + '&id=' + this.cardStats.cardID;
-        if (this.state.english == userAnswer) {
+        if (this.state.english == userAnswer.trim()) {
           console.log("Correct answer");
           correctBox[0].classList.remove('hidden');
           answer.classList.add('hidden');
           url = url + "&isCorrect=true";
+
+          //update local array of flashcards
+          this.flashcards[this.index].numCorrect++;
+          this.flashcards[this.index].numShown++;
         } else {
           console.log("Incorrect answer");
           correctBox[0].classList.add('hidden');
           answer.classList.remove('hidden');
           url = url + "&isCorrect=false";
+
+          //update local array of flashcards
+          this.flashcards[this.index].numShown++;
         }
         this.flipAnimation();
 
@@ -270,7 +278,7 @@ var CardFront = function (_React$Component4) {
           React.createElement(
             'div',
             { className: 'icon' },
-            React.createElement('img', { src: '../assets/noun_Refresh_2310283.svg' })
+            React.createElement('img', { src: 'noun_Refresh_2310283.svg' })
           ),
           React.createElement(
             'h2',

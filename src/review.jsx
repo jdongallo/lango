@@ -45,6 +45,7 @@ class Card extends React.Component {
     this.processInput = this.processInput.bind(this);
     this.flashcards = [];
     this.cardStats = {correct: "", seen: "", cardID: ""};
+    this.index = 0;
   }
   render() {
     return(
@@ -85,9 +86,9 @@ class Card extends React.Component {
     let eng = '';
     let es = '';
     while (true) {
-      let index = Math.floor(Math.random() * this.flashcards.length);
-      let correct = this.flashcards[index].numCorrect;
-      let seen = this.flashcards[index].numShown;
+      this.index = Math.floor(Math.random() * this.flashcards.length);
+      let correct = this.flashcards[this.index].numCorrect;
+      let seen = this.flashcards[this.index].numShown;
       let score = Math.max(1, 5-correct) + Math.max(1, 5-seen);
       if (seen == 0) {
         score += 5;
@@ -97,11 +98,11 @@ class Card extends React.Component {
       }
       let randNum = Math.floor(Math.random() * 16);
       if (randNum <= score) {
-        eng = this.flashcards[index].engText;
-        es = this.flashcards[index].transText;
-        this.cardStats.correct = this.flashcards[index].numCorrect;
-        this.cardStats.seen = this.flashcards[index].numShown;
-        this.cardStats.cardID = this.flashcards[index].idNum;
+        eng = this.flashcards[this.index].engText;
+        es = this.flashcards[this.index].transText;
+        this.cardStats.correct = this.flashcards[this.index].numCorrect;
+        this.cardStats.seen = this.flashcards[this.index].numShown;
+        this.cardStats.cardID = this.flashcards[this.index].idNum;
         break;
       }
     }
@@ -152,19 +153,26 @@ class Card extends React.Component {
       let userAnswer = document.getElementById('input').value;
       let answer = document.getElementById('answer');
       let correctBox = document.getElementsByClassName('correctBox');
-      console.log(this.state.english, userAnswer);
+      console.log(this.state.english, userAnswer, '*');
       let url = `/update?shown=${this.cardStats.seen}&correct=${this.cardStats.correct}&id=${this.cardStats.cardID}`;
-      if (this.state.english == userAnswer) {
+      if (this.state.english == userAnswer.trim()) {
         console.log("Correct answer");
         correctBox[0].classList.remove('hidden');
         answer.classList.add('hidden');
         url = url + "&isCorrect=true";
+
+        //update local array of flashcards
+        this.flashcards[this.index].numCorrect++;
+        this.flashcards[this.index].numShown++;
       }
       else {
         console.log("Incorrect answer");
         correctBox[0].classList.add('hidden');
         answer.classList.remove('hidden');
         url = url + "&isCorrect=false";
+
+        //update local array of flashcards
+        this.flashcards[this.index].numShown++;
       }
       this.flipAnimation();
 
@@ -198,7 +206,7 @@ class CardFront extends React.Component {
       <div className='card-side'>
          <div className='card-side-container'>
           <div className="icon">
-            <img  src="../assets/noun_Refresh_2310283.svg" />
+            <img  src="noun_Refresh_2310283.svg" />
           </div> 
           <h2 id='trans'>{this.props.text}</h2>
 
