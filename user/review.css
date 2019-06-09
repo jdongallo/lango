@@ -255,11 +255,11 @@ textarea {
     font-size: 20px;
     font-family: 'Helvetica', sans-serif;
 
-    min-width: 54vw; 
-    min-height: 12vh;
+    min-width: 50vw; 
+    min-height: 10vh;
 
-    max-width: 54vw;
-    max-height: 12vh;
+    padding-top: 3vh;
+
 }
 
 .hidden {
@@ -349,11 +349,10 @@ textarea {
     font-size: 20px;
     font-family: 'Helvetica', sans-serif;
 
-    min-width: 59vw; 
-    min-height: 19vh;
+    min-width: 56vw; 
+    min-height: 14vh;
 
-    max-width: 60vw;
-    max-height: 19vh;
+    padding-top: 4vh;
 }
 
 .correctBox{
@@ -483,11 +482,11 @@ textarea {
     font-size: 20px;
     font-family: 'Helvetica', sans-serif;
 
-    min-width: 74vw; 
-    min-height: 14vh;
+    min-width: 64vw; 
+    min-height: 9vh;
 
-    max-width: 74vw;
-    max-height: 14vh;
+    /*padding-left: 10vw;
+    padding-top: 4vh;*/
 }
 
 .correctBox{

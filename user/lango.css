@@ -136,11 +136,13 @@ textarea {
     font-size: 25px;
     font-family: 'Helvetica', sans-serif;
 
-    min-width: 31vw;
-    min-height: 48vh;
+    min-width: 22vw;
+    min-height: 12vh;
 
-    max-width: 32vw;
-    max-height: 49vh;
+    padding-top: 12vh;
+    padding-left: 9vw;
+    /*max-width: 22vw;
+    max-height: 12vh;*/
 }
 
 
@@ -212,11 +214,10 @@ textarea {
     font-size: 25px;
     font-family: 'Helvetica', sans-serif;
 
-    min-width: 44vw;
-    min-height: 41vw;
+    min-width: 22vw;
+    min-height: 13vh;
 
-    max-width: 48vw;
-    max-height: 42vw;
+    padding-top: 11vh;
 }
 
 
@@ -322,11 +323,10 @@ textarea {
     font-size: 25px;
     font-family: 'Helvetica', sans-serif;
 
-    min-width: 75vw;
-    min-height: 25vh;
+    min-width: 30vw;
+    min-height: 13vh;
 
-    max-width: 76vw;
-    max-height: 26vh;
+    padding-left: 12vw; 
 }
 
 
