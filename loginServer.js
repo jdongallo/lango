@@ -130,7 +130,7 @@ app.get('/name', isAuthenticated, (req, res, next) => {
 app.use( fileNotFound );
 
 // Pipeline is ready. Start listening!  
-app.listen(51608, function (){console.log('Listening...');} );
+app.listen(port, function (){console.log('Listening...');} );
 
 
 // middleware functions
